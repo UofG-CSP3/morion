@@ -30,7 +30,7 @@ def get_delim_strategy(delim: str) -> _ParsingInputStrategy:
             die=die,
             author=author,
             timestamp=timestamp,
-            meta={'comments': comments, 'additional': additional, 'type': experiment_type},
+            meta={'comments': comments, 'additional': additional, 'type': experiment_type, 'institution': institution},
             readings=readings
         )
 
