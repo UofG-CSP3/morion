@@ -49,7 +49,9 @@ before_script:
 # and then adding `--settings app.settings.ci` (or similar) to the test command
 
 test:
+  tags:
+    - docker
   variables:
     DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/$POSTGRES_DB"
   script:
-    - python manage.py test
+    - python CSP3_project/manage.py test
