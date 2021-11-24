@@ -7,4 +7,4 @@ class Device:
     _id: str
     type: str
     properties: dict[str, any]
-    experiments: list[Experiment]
+    experiments: list[int] # int is the type of Experiment._id
