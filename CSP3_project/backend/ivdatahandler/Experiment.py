@@ -1,6 +1,5 @@
 from dataclasses import dataclass
 from datetime import datetime
-from .Device import Device
 
 
 @dataclass
@@ -14,8 +13,7 @@ class Experiment:
     meta: dict[str, any]
     readings: list[dict[str, any]]
 
-    def __init__(self):
-        super(Experiment, self).__init__()
+    def __post_init__(self):
         self._id = Experiment._next_id
         Experiment._next_id += 1
 

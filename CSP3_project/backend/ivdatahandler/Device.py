@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from .Experiment import Experiment
 
 
 @dataclass
