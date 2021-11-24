@@ -30,25 +30,25 @@ class Database:
     def add_experiment(self, experiment: Experiment):
         self.experiment_collection.insert_one(asdict(experiment))
 
-    def find_experiments(self, query: dict) -> tuple[Experiment]:
-        experiments = self.experiment_collection.find(query)
+    def find_experiments(self, *args, **kwargs) -> tuple[Experiment]:
+        experiments = self.experiment_collection.find(*args, **kwargs)
         return tuple(_get_experiment_from_db_json(e) for e in experiments)
 
-    def find_experiment(self, query):
-        experiment = self.experiment_collection.find_one(query)
+    def find_experiment(self, *args, **kwargs):
+        experiment = self.experiment_collection.find_one(*args, **kwargs)
         if experiment is not None:
             return _get_experiment_from_db_json(experiment)
 
     def add_device(self, device: Device):
         self.device_collection.insert_one(asdict(device))
 
-    def find_device(self, query):
-        device = self.device_collection.find_one(query)
+    def find_device(self, *args, **kwargs):
+        device = self.device_collection.find_one(*args, **kwargs)
         if device is not None:
             return _get_device_from_db_json(device)
 
-    def find_devices(self, query: dict) -> tuple[Device]:
-        devices = self.device_collection.find(query)
+    def find_devices(self, *args, **kwargs) -> tuple[Device]:
+        devices = self.device_collection.find(*args, **kwargs)
         return tuple(_get_device_from_db_json(d) for d in devices)
 
     def disconnect(self):

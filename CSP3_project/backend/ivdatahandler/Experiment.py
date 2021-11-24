@@ -1,8 +1,8 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 
 
-@dataclass
+@dataclass(init=False)
 class Experiment:
     _next_id = 0
 
@@ -13,8 +13,17 @@ class Experiment:
     meta: dict[str, any]
     readings: list[dict[str, any]]
 
-    def __post_init__(self):
-        self._id = Experiment._next_id
-        Experiment._next_id += 1
+    def __init__(self, devices, author, timestamp, meta, readings, _id=None):
+        if _id is None:
+            self._id = Experiment._next_id
+            Experiment._next_id += 1
+        else:
+            self._id = _id
+
+        self.devices = devices
+        self.author = author
+        self.timestamp = timestamp
+        self.meta = meta
+        self.readings = readings
 
         
