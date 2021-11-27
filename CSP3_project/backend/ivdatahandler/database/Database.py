@@ -28,7 +28,13 @@ class Database:
         self.device_collection = self.db['devices']
 
     def add_experiment(self, experiment: Experiment):
-        self.experiment_collection.insert_one(asdict(experiment))
+        experiment_dict = asdict(experiment)
+        if experiment_dict['_id'] is None:
+            experiment_dict.pop('_id')
+        else:
+            return
+        result = self.experiment_collection.insert_one(experiment_dict)
+        return result.inserted_id
 
     def find_experiments(self, *args, **kwargs) -> tuple[Experiment]:
         experiments = self.experiment_collection.find(*args, **kwargs)

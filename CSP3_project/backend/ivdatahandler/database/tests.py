@@ -32,8 +32,9 @@ class TestDatabase(unittest.TestCase):
         #print(self.test_db.experiment_collection)
 
     def test_b_add_experiment(self):
-        self.test_db.add_experiment(Experiment(**self.test_experiment_data))
-        #print(list(self.test_db.experiment_collection.find()))
+        assert self.test_db.add_experiment(Experiment(**self.test_experiment_data)) is not None
+        assert self.test_db.find_experiment(self.test_experiment_data) is not None
+        print(list(self.test_db.experiment_collection.find()))
 
     def test_d_add_device(self):
         self.test_db.add_device(Device(_id='iLGAD577>0_0',
@@ -42,13 +43,6 @@ class TestDatabase(unittest.TestCase):
                                        experiments=[]))
 
         #print(list(self.test_db.device_collection.find()))
-
-    def test_c_experiment_id_self_increments(self):
-        latest_experiment_id = self.test_db.find_experiment(sort=[('_id', pymongo.DESCENDING)])._id or 0
-        for i in range(10):
-            self.test_db.add_experiment(Experiment(**self.test_experiment_data))
-        latest_experiment_id -= self.test_db.find_experiment(sort=[('_id', pymongo.DESCENDING)])._id
-        assert latest_experiment_id == -10
 
 
 if __name__ == '__main__':
