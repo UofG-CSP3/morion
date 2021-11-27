@@ -14,6 +14,10 @@ Based on https://gitlab.com/gitlab-org/gitlab/-/blob/master/.gitlab/issue_templa
 
 <!-- A detailed explanation on how you plan to solve it. -->
 
+### Time Estimate
+
+<!-- How long this feature will take to implement. -->
+
 ### Intended Users
 
 <!-- List the types of users this feature is designed for. Giving a brief reason why.  -->
