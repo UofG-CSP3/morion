@@ -1,9 +1,9 @@
 from dataclasses import dataclass, field, asdict
 
-from ..Experiment import Experiment
-from ..Device import Device
-
 import pymongo
+
+from ..Device import Device
+from ..Experiment import Experiment
 
 
 def _get_experiment_from_db_json(experiment_dict: dict) -> Experiment:

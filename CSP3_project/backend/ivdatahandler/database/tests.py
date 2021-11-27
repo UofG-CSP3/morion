@@ -1,10 +1,8 @@
-import pymongo
+import unittest
 
-from .Database import Database, connect
+from .Database import connect
 from ..Device import Device
 from ..Experiment import Experiment
-
-import unittest
 
 
 class TestDatabase(unittest.TestCase):
@@ -28,8 +26,8 @@ class TestDatabase(unittest.TestCase):
     def test_a_database_connect(self):
         assert self.test_db is not None
         assert self.test_db.dbname == 'test-database'
-        #print(self.test_db.device_collection)
-        #print(self.test_db.experiment_collection)
+        # print(self.test_db.device_collection)
+        # print(self.test_db.experiment_collection)
 
     def test_b_add_experiment(self):
         assert self.test_db.add_experiment(Experiment(**self.test_experiment_data)) is not None
@@ -42,7 +40,7 @@ class TestDatabase(unittest.TestCase):
                                        properties={},
                                        experiments=[]))
 
-        #print(list(self.test_db.device_collection.find()))
+        # print(list(self.test_db.device_collection.find()))
 
 
 if __name__ == '__main__':
