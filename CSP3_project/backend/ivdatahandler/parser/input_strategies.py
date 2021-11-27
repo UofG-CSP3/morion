@@ -3,35 +3,33 @@ from datetime import datetime
 import csv
 from ..Experiment import Experiment
 from .ParsingStrategy import _ParsingInputStrategy
+from .parse_config import read_header
 
 
 def get_delim_strategy(delim: str) -> _ParsingInputStrategy:
-    # TODO: This strategy is based on the example files that Dima gave, there are almost certainly some mistakes.
-    #       We should do a code review to iron them out.
 
     def delim_strategy(data_in: TextIO) -> Experiment:
         reader = csv.reader(data_in, delimiter=delim)
+        header = read_header()
 
-        wafer, die, experiment_type = next(reader)
-        comments = next(reader)
+        experiment_dict = {}
 
-        institution, author, timestamp_str = next(reader)
-        timestamp = datetime.strptime(timestamp_str, "%Y-%m-%d_%H:%M")  # For example: 2021-03-29_13:07
+        for i, heading, in enumerate(header):
+            experiment_dict.update(dict(zip(heading, next(reader))))
 
-        # TODO: I'm not really sure what this line is supposed to be, we should ask Dima for more info.
-        additional = [float(val) for val in next(reader)]
+        experiment_dict['timestamp'] = datetime.strptime(experiment_dict.pop('timestamp'), "%Y-%m-%d_%H:%M")
 
         fields = {index: field for index, field in enumerate(next(reader))}
         # TODO: Converting all possible readings to floats seems silly. We should come up with a better way.
         readings = [{fields[i]: float(val) for i, val in enumerate(line)} for line in reader]
+        experiment_dict['readings'] = readings
 
         return Experiment(
-            wafer=wafer,
-            die=die,
-            author=author,
-            timestamp=timestamp,
-            meta={'comments': comments, 'additional': additional, 'type': experiment_type, 'institution': institution},
-            readings=readings
+            devices=[experiment_dict.pop('wafer'), experiment_dict.pop('die')],
+            author=experiment_dict.pop('author'),
+            timestamp=experiment_dict.pop('timestamp'),
+            readings=experiment_dict.pop('readings'),
+            meta=experiment_dict,
         )
 
     return delim_strategy
