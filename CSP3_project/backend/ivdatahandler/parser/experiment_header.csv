@@ -1,0 +1,4 @@
+wafer,die,measurementType
+comment
+performingGroup,author,timestamp,
+voltageStep,stepDelay,stepMeasurement,compliance
