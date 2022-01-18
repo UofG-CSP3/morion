@@ -1,4 +1,4 @@
 wafer,die,measurementType
 comment
-performingGroup,author,timestamp,
+institution,author,date,
 voltageStep,stepDelay,stepMeasurement,compliance
