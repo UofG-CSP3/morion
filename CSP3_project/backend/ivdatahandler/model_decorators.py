@@ -1,12 +1,9 @@
 from functools import wraps
 from typing import Callable, Type
 
-from pydantic import validator
 from pymongo.database import Database
 
 from .mongomodel import MongoModel
-
-id_setter = validator('id', always=True)
 
 
 def forward_link_one(model_get: Callable[[], Type[MongoModel]]):
