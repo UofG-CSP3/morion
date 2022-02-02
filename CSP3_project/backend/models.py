@@ -1,11 +1,10 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import Field
+from pydantic import Field, root_validator
 
 from .ivdatahandler import MongoModel, BaseModel
 from .ivdatahandler.model_decorators import (
-    id_setter,
     link_one,
     forward_link_one,
     link_many
@@ -70,12 +69,15 @@ class Wafer(MongoModel):
     handle_wafer: str
     sheet_resistance: float
 
-    @id_setter
-    def set_id(cls, id_value, values):
-        if id_value is not None:  # ID has been already set
-            return id_value
-        else:
-            return values['name']
+    @root_validator
+    def set_id(cls, values):
+        if values['id'] is None:
+            if not values.get('name'):
+                return ValueError('Wafer name not provided.')
+
+            values['id'] = values['name']
+
+        return values
 
     @link_many(Die)
     def get_dies(self):
