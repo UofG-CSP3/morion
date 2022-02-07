@@ -1,8 +1,6 @@
-from CSP3_project.backend.ivdatahandler import get_header
 from .ivdatahandler.filewriter import register_writer
 from .ivdatahandler.standard_writers import standard_experiment_write
 from .models import IV
-
 from pathlib import Path
 
 
