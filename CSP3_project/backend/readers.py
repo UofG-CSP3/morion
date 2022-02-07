@@ -12,9 +12,6 @@ def get_header(header_name: str):
     return str(filepath)
 
 
-Path(__file__).parent.with_name("config.ini")
-
-
 def is_iv_file(filepath: str):
     try:
         with open(filepath, 'r') as f:
