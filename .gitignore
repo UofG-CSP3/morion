@@ -154,3 +154,6 @@ cython_debug/
 
 # MacOS
 .DS_Store
+
+# MongoDB Config
+CSP3_project/backend/ivdatahandler/config.ini
