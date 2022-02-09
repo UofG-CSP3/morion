@@ -38,8 +38,7 @@ def init_mongo():
 
 
 def database() -> Database:
-    assert (_database is not None,
-            'Database connection has not been established. Have you made sure to call init_mongo()?')
+    assert _database is not None, 'Database connection not established. Have you made sure to call init_mongo()?'
     return _database
 
 
@@ -95,8 +94,6 @@ def mongodb_uri_from_config(config: ConfigParser) -> str:
     def get_params():
         section = config[section_name] if config.has_section(section_name) else {}
         return {param: value for param, value in section.items() if param != 'connection'}
-
-    print(components.path)
 
     formatted_fields = {
         'path': components.path or '/',
