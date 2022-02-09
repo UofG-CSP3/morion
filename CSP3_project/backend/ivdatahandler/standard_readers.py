@@ -7,6 +7,9 @@ def standard_experiment(
         header_delim: str = ',',
         experiment_delim: str = '\t'
 ):
+    """
+    Standard reader for experiment files. Takes in an experiment data file and header template file and parses its contents into a dictionary.
+    """
     experiment_dict = {}
 
     with open(header_filepath) as header_f, open(experiment_filepath) as experiment_f:

@@ -7,6 +7,7 @@ from .config import database
 
 
 def query_merge(query: dict, **kwargs: dict) -> dict:
+    """Ällows for additional arguments to be passed into database inspection methods apart from the main query."""
     if query is None:
         return kwargs
     else:
@@ -14,11 +15,13 @@ def query_merge(query: dict, **kwargs: dict) -> dict:
 
 
 class BaseModel(PydanticBaseModel):
+    """Base model allows for the use of field aliases."""
     class Config:
         allow_population_by_field_name = True
 
 
 class MongoModel(BaseModel):
+    """Mongo model serves as the base model for all object types stored in the database. It implements common functionality for database inspection and modification."""
     # id by default is None, so that it would be set by the MongoDB database.
     id: Any = Field(default=None, title='The MongoDB primary key', alias='_id')
 
@@ -27,6 +30,7 @@ class MongoModel(BaseModel):
 
     @classmethod
     def collection(cls) -> Collection:
+        """"Return the collection from the database where objects of type cls are stored."""
         collection_name = cls.schema()['title']
         return database().get_collection(collection_name)
 
