@@ -96,8 +96,6 @@ def mongodb_uri_from_config(config: ConfigParser) -> str:
         section = config[section_name] if config.has_section(section_name) else {}
         return {param: value for param, value in section.items() if param != 'connection'}
 
-    print(components.path)
-
     formatted_fields = {
         'path': components.path or '/',
         'query': mongodb_uri_merge_params(components.query, get_params())
