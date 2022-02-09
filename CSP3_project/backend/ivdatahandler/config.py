@@ -38,8 +38,7 @@ def init_mongo():
 
 
 def database() -> Database:
-    assert (_database is not None,
-            'Database connection has not been established. Have you made sure to call init_mongo()?')
+    assert _database is not None, 'Database connection not established. Have you made sure to call init_mongo()?'
     return _database
 
 
