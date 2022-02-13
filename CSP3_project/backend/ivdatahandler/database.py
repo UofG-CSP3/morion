@@ -1,4 +1,6 @@
+from pathlib import Path
 from typing import Callable, Type, Iterable
+from glob import glob
 
 import pymongo.errors as errors
 
@@ -15,8 +17,7 @@ def upload_file(filepath: str, reader: Callable[[str], MongoModel] = None, upser
 
     :param filepath: The path to the file to upload.
     :param reader: [Optional] The reader to use to read the file. If not specified, it will be automatically deduced.
-    :param upsert: If upsert is True, and a document with the same id already exists in the database,
-    the file in this document will replace it.
+    :param upsert: [Optional] Replace existing documents in the database if they have the same id.
     :return: The document that was uploaded to the database.
     """
     mongo_model = read_file(filepath, reader)
@@ -38,8 +39,7 @@ def upload_bulk(
 
     :param filepaths: List of files to upload.
     :param reader:  [Optional] The reader to use to read the files. If not specified, it will be automatically deduced.
-    :param upsert: [Optional] If upsert is True, and a document with the same id already exists in the database,
-    the file in this document will replace it.
+    :param upsert: [Optional] Replace existing documents in the database if they have the same id.
     :param ignore_duplicate_error: [Optional] If True, then the duplicate error that is raised when attempting to
     overwrite a document already in the database will be ignored.
     :return: The list of documents which were successfully uploaded to the database.
@@ -52,6 +52,30 @@ def upload_bulk(
         except errors.DuplicateKeyError as err:
             if not ignore_duplicate_error:
                 raise err
+
+    return successful_uploads
+
+
+def upload_directory(
+        directory: str = './',
+        upsert=False,
+        ignore_duplicate_error=False,
+        recursive=False,
+        pattern='*'):
+    """
+    Upload files in a directory to the database.
+
+    :param directory: [Optional] The root directory to upload. Defaults to the current working directory.
+    :param upsert: [Optional] Replace existing documents in the database if they have the same id.
+    :param ignore_duplicate_error: [Optional] If True, then the duplicate error that is raised when attempting to
+    overwrite a document already in the database will be ignored.
+    :param recursive: [Optional] Recurse through the subdirectories when uploading.
+    :param pattern: [Optional] Glob pattern of file path.
+    :return: The list of documents which were successfully uploaded to the database.
+    """
+    glob_pattern = (Path(directory) / pattern).as_posix()
+    files = [f for f in glob(glob_pattern, recursive=recursive) if Path(f).is_file()]
+    return upload_bulk(files, upsert=upsert, ignore_duplicate_error=ignore_duplicate_error)
 
 
 def download(model_type: Type[MongoModel], filepath: str, query: dict = None, **kwargs) -> MongoModel:
