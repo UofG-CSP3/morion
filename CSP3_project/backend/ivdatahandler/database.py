@@ -85,7 +85,7 @@ def download(model_type: Type[MongoModel], filepath: str, query: dict = None, **
     Only the first document found that matches the given query would be downloaded.
 
     :param model_type: The specfic MongoModel type to look for
-    :param filepath: The path to download the document to.
+    :param filepath: The path to download the document to. This can include curly braces to allow for formatting.
     :param query: The MongoDB query to find the document.
     :param kwargs: Key word arguments to use in the query.
     :return: The model instance that was downloaded.
@@ -95,5 +95,6 @@ def download(model_type: Type[MongoModel], filepath: str, query: dict = None, **
     if model is None:
         raise ValueError('No document with the given query could be found in the Database.')
 
-    write_file(filepath, model)
+    formatted_path = filepath.format(**model.__dict__)
+    write_file(formatted_path, model)
     return model
