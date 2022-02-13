@@ -27,6 +27,6 @@ def iv_reader(filepath: str) -> IV:
     # Don't need the measurement type
     d.pop('measurementType')  # TODO: Maybe add this functionality to the header file?
     # Convert timestamp str to datetime
-    d['date'] = datetime.strptime(d.pop('date'), "%Y-%m-%d_%H:%M")
+    d['date'] = datetime.fromisoformat(d.pop('date'))
 
     return IV(**d)
