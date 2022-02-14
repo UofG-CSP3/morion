@@ -2,9 +2,9 @@ from datetime import datetime
 from pathlib import Path
 
 from .ivdatahandler.filereader import register_reader
-from .ivdatahandler.standard_readers import standard_experiment
+from .ivdatahandler.standard_readers import standard_experiment, standard_component
 
-from .models import IV
+from .models import IV, Wafer, Die
 
 
 def get_header(header_name: str):
@@ -30,3 +30,36 @@ def iv_reader(filepath: str) -> IV:
     d['date'] = datetime.fromisoformat(d.pop('date'))
 
     return IV(**d)
+
+
+def is_wafer(filepath: str):
+    try:
+        with open(filepath, 'r') as f:
+            return f.readline().strip().split('\t')[0] == 'Wafer'
+    except (FileNotFoundError, IndexError):
+        return False
+
+
+@register_reader(use_when=is_wafer)
+def wafer_reader(filepath: str) -> Wafer:
+    d = standard_component(header_filepath=get_header('Wafer_header.csv'), component_filepath=filepath)
+    d.pop('Component')
+    d['production_date'] = datetime.fromisoformat(d['production_date'])
+
+    return Wafer(**d)
+
+
+def is_die(filepath: str):
+    try:
+        with open(filepath, 'r') as f:
+            return f.readline().strip().split('\t')[0] == 'Die'
+    except (FileNotFoundError, IndexError):
+        return False
+
+
+@register_reader(use_when=is_die)
+def die_reader(filepath: str) -> Die:
+    d = standard_component(header_filepath=get_header('Die_header.csv'), component_filepath=filepath)
+    d.pop('Component')
+
+    return Die(**d)

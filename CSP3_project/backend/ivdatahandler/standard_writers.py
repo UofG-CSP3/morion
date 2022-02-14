@@ -39,3 +39,35 @@ def standard_experiment_write(
 
 
         #TODO specify number of digits for floating numbers
+
+def standard_component_write(
+        model: MongoModel,
+        new_file: str,
+        header_filepath,
+        defaults=None,
+        component_delim='\t',
+        header_delim: str = ','
+):
+    if defaults is None:
+        defaults = {}
+
+    defaults.update(model.dict(by_alias=True))
+    model_dict = defaults
+    del model_dict['_id']
+
+    with open(new_file, 'w', newline='') as component_file, open(header_filepath, 'r') as header_f:
+        header_reader = csv.reader(header_f, delimiter=header_delim)
+        component_writer = csv.writer(component_file, delimiter=component_delim)
+
+        header_fields = set()
+        for row in header_reader:
+            header_fields.update(row)
+            write_row = [model_dict[cell] for cell in row]
+            component_writer.writerow(write_row)
+
+        component_info = {field: value for field, value in model_dict.items() if field not in header_fields}
+        component_file.write('\n')
+
+        for field, value in component_info.items():
+            value = value if value else ''
+            component_file.write(f'{field}{component_delim}{value}\n')
