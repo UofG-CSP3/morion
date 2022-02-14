@@ -15,7 +15,7 @@ def create_iv_file(wafer, die):
     author = random.choice(['Dima Maneuski', 'Danial Tariq', 'James McClure', 'Ciara Losel', 'Franciszek Sowul',
                             'Eren Oezveren'])
 
-    with open(f'../../CSP3_project/ivs/IV_wafer_{wafer}_die_{die}.txt', 'w', newline='') as f:
+    with open(f'ivs/IV_wafer_{wafer}_die_{die}.txt', 'w', newline='') as f:
         writer = csv.writer(f, delimiter='\t')
         writer.writerow([wafer, die, 'IV'])
         writer.writerow(['comment'])
@@ -32,7 +32,7 @@ def create_die_file(wafer, name):
     anode_type = random.choice(['pad', 'pixels', 'strips', 'other'])
     device_type = wafer.split('_')[0]
 
-    with open(f'../../CSP3_project/dies/Die_{wafer}_{name}.txt', 'w', newline='') as f:
+    with open(f'dies/Die_{wafer}_{name}.txt', 'w', newline='') as f:
         writer = csv.writer(f, delimiter='\t')
         writer.writerow(['Die', wafer, name])
         writer.writerow([anode_type, device_type, random.randint(0, 5)])
@@ -42,8 +42,8 @@ def create_die_file(wafer, name):
 
 
 def create_die_and_iv_files():
-    Path('../../CSP3_project/dies').mkdir(exist_ok=True)
-    Path('../../CSP3_project/ivs').mkdir(exist_ok=True)
+    Path('dies').mkdir(exist_ok=True)
+    Path('ivs').mkdir(exist_ok=True)
 
     for wafer in wafers:
         for row in range(die_row):
@@ -65,7 +65,7 @@ def create_wafer_file(wafer):
     production_date = datetime.datetime.now()
     production_run_data = 'www.example.com'
 
-    with open(f'../../CSP3_project/wafers/Wafer_{wafer}.txt', 'w', newline='') as f:
+    with open(f'wafers/Wafer_{wafer}.txt', 'w', newline='') as f:
         writer = csv.writer(f, delimiter='\t')
         writer.writerow(['Wafer', wafer])
         writer.writerow([random.choice(material_types), random.choice(mask_designs), production_date])
@@ -77,7 +77,7 @@ def create_wafer_file(wafer):
 
 
 def create_wafer_files():
-    Path('../../CSP3_project/wafers').mkdir(exist_ok=True)
+    Path('wafers').mkdir(exist_ok=True)
 
     for wafer in wafers:
         create_wafer_file(wafer)
