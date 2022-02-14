@@ -1,6 +1,6 @@
 from .ivdatahandler.filewriter import register_writer
 from .ivdatahandler.standard_writers import standard_experiment_write, standard_component_write
-from .models import IV, Wafer
+from .models import IV, Wafer, Die
 from pathlib import Path
 
 
@@ -19,3 +19,9 @@ def iv_writer(filepath: str, model: IV):
 def wafer_writer(filepath: str, model: Wafer):
     header = get_header('Wafer_header.csv')
     standard_component_write(model=model, new_file=filepath, header_filepath=header, defaults={'Component': 'Wafer'})
+
+
+@register_writer(model=Die, use_when=lambda _:True)
+def die_writer(filepath: str, model: Die):
+    header = get_header('Die_header.csv')
+    standard_component_write(model=model, new_file=filepath, header_filepath=header, defaults={'Component': 'Die'})

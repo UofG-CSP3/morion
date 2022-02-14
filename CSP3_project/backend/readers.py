@@ -4,7 +4,7 @@ from pathlib import Path
 from .ivdatahandler.filereader import register_reader
 from .ivdatahandler.standard_readers import standard_experiment, standard_component
 
-from .models import IV, Wafer
+from .models import IV, Wafer, Die
 
 
 def get_header(header_name: str):
@@ -47,3 +47,19 @@ def wafer_reader(filepath: str) -> Wafer:
     d['production_date'] = datetime.fromisoformat(d['production_date'])
 
     return Wafer(**d)
+
+
+def is_die(filepath: str):
+    try:
+        with open(filepath, 'r') as f:
+            return f.readline().strip().split('\t')[0] == 'Die'
+    except (FileNotFoundError, IndexError):
+        return False
+
+
+@register_reader(use_when=is_die)
+def die_reader(filepath: str) -> Die:
+    d = standard_component(header_filepath=get_header('Die_header.csv'), component_filepath=filepath)
+    d.pop('Component')
+
+    return Die(**d)
