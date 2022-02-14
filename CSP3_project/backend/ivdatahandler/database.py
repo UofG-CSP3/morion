@@ -78,17 +78,18 @@ def upload_directory(
     return upload_bulk(files, upsert=upsert, ignore_duplicate_error=ignore_duplicate_error)
 
 
-def download(model_type: Type[MongoModel], filepath: str, query: dict = None, **kwargs) -> MongoModel:
+def download(model_type: Type[MongoModel], filepath: str = '{id}.txt', query: dict = None, **kwargs) -> MongoModel:
     """
     Download a single document into a file from the database.
 
     Only the first document found that matches the given query would be downloaded.
 
     :param model_type: The specfic MongoModel type to look for
-    :param filepath: The path to download the document to. This can include curly braces to allow for formatting.
-    :param query: The MongoDB query to find the document.
+    :param filepath: [Optional] The path to download the document to. This can include curly braces to allow for formatting.
+    If not specified, this will be "<id>.txt" where <id> is the id of the document.
+    :param query: [Optional] The MongoDB query to find the document.
     :param kwargs: Key word arguments to use in the query.
-    :return: The model instance that was downloaded.
+    :return: The document that was downloaded.
     """
     model = model_type.find_one(query, **kwargs)
 
@@ -98,3 +99,48 @@ def download(model_type: Type[MongoModel], filepath: str, query: dict = None, **
     formatted_path = filepath.format(**model.__dict__)
     write_file(formatted_path, model)
     return model
+
+
+def download_many(
+        model_type: Type[MongoModel],
+        directory: str = './',
+        filepath: str = '{id}.txt',
+        query: dict = None,
+        group: list = None,
+        **kwargs):
+    """
+    Download all documents from the database that match a given query..
+
+    Only the first document found that matches the given query would be downloaded.
+
+    :param model_type: The specfic MongoModel type to look for
+    :param filepath: [Optional] The path to download the document to. This can include curly braces to allow for formatting.
+    If not specified, this will be "<id>.txt" where <id> is the id of the document.
+    :param query: [Optional] The MongoDB query to find the document.
+    :param directory: [Optional] The directory to download the documents to.
+    :param group: [Optional] Group documents into subdirectories based on their fields.
+    :param kwargs: Key word arguments to use in the query.
+    :return: List of documents that were downloaded.
+    """
+    if group is None:
+        group = []
+
+    def write_document(doc: MongoModel, write_dir: Path):
+        path = str(write_dir / filepath).format(**doc.__dict__)
+        write_file(path, doc)
+
+    documents = model_type.find(query, **kwargs)
+    document_path_map: dict[MongoModel, Path] = {doc: Path(directory) for doc in documents}
+
+    for group in group:
+        for doc in document_path_map:
+            document_path_map[doc] = document_path_map[doc] / doc.__dict__[group]
+
+    paths: set[Path] = set(path for path in document_path_map.values())
+    for path in paths:
+        path.mkdir(parents=True, exist_ok=True)
+
+    for doc, dir_path in document_path_map.items():
+        write_document(doc, dir_path)
+
+    return documents
