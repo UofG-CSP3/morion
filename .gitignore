@@ -154,3 +154,6 @@ cython_debug/
 
 # MacOS
 .DS_Store
+
+# For local testing.
+local_testing/
