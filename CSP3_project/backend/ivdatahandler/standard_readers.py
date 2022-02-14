@@ -1,6 +1,13 @@
 import csv
 
 
+def parse_header(header_reader: csv.reader, file_reader: csv.reader) -> dict:
+    d = {}
+    for header_row, file_row in zip(header_reader, file_reader):
+        d.update(dict(zip(header_row, file_row)))
+    return d
+
+
 def standard_experiment(
         header_filepath: str,
         experiment_filepath: str,
@@ -16,9 +23,7 @@ def standard_experiment(
         header_reader = csv.reader(header_f, delimiter=header_delim)
         experiment_reader = csv.reader(experiment_f, delimiter=experiment_delim)
 
-        # Parse the values in the header of the experiment.
-        for header_row, experiment_row in zip(header_reader, experiment_reader):
-            experiment_dict.update(dict(zip(header_row, experiment_row)))
+        experiment_dict.update(parse_header(header_reader, experiment_reader))
 
         # Now parse in the readings
         fields = {index: field for index, field in enumerate(next(experiment_reader))}
@@ -26,3 +31,24 @@ def standard_experiment(
         experiment_dict['readings'] = readings
 
     return experiment_dict
+
+
+def standard_component(
+        header_filepath: str,
+        component_filepath: str,
+        header_delim: str = ',',
+        component_delim: str = '\t'
+):
+    component_dict = {}
+    with open(header_filepath) as header_f, open(component_filepath) as experiment_f:
+        header_reader = csv.reader(header_f, delimiter=header_delim)
+        component_reader = csv.reader(experiment_f, delimiter=component_delim)
+
+        component_dict.update(parse_header(header_reader, component_reader))
+        for row in component_reader:
+            if len(row) == 0:
+                continue
+
+            key, *value = row
+            component_dict[key] = ''.join(value)
+    return component_dict
