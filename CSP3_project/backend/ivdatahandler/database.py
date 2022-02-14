@@ -78,7 +78,7 @@ def upload_directory(
     return upload_bulk(files, upsert=upsert, ignore_duplicate_error=ignore_duplicate_error)
 
 
-def download(model_type: Type[MongoModel], filepath: str = '{id}.txt', query: dict = None, **kwargs) -> MongoModel:
+def download_one(model_type: Type[MongoModel], filepath: str = '{id}.txt', query: dict = None, **kwargs) -> MongoModel:
     """
     Download a single document into a file from the database.
 
