@@ -7,11 +7,8 @@ from .mongomodel import MongoModel
 
 @dataclass
 class FileWriter:
-    # A instance of writer present in list to be used later, takes in filepath of
     writer: Callable[[str], bool]
-    # A instance of knowing what type of database entry to download
     use_when: Callable[[str], bool]
-    # A field for the model to which we would use the writer for
     model: Type[MongoModel]
     priority: int
 
@@ -20,6 +17,15 @@ writers: list[FileWriter] = []
 
 
 def register_writer(model: Type[MongoModel], use_when: Callable[[str], bool], priority: int = 1):
+    """
+    Function decorator to add a writer function to a known list of writers.
+
+    :param model: The type of MongoModel this writer is applicable to.
+    :param use_when: A function which, given a filepath, returns a boolean stating whether this writer is applicable
+    for the given file.
+    :param priority: The priority of this writer. A higher priority means the writer takes precedence.
+    """
+
     def register(w: Callable[[str], bool]):
         nonlocal model, use_when, priority
         writers.append(FileWriter(writer=w,
@@ -37,7 +43,7 @@ def filter_writers(filepath: str, model: MongoModel):
                   key=lambda r: r.priority, reverse=True)
 
 
-def write_file(filepath: str, model: MongoModel, writer: Callable[[str], bool] = None) -> bool:
+def write_file(filepath: str, model: MongoModel, writer: Callable[[str, MongoModel], bool] = None) -> bool:
     if writer is not None:
         return writer(filepath, model)
 

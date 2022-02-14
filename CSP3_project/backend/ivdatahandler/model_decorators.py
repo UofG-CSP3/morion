@@ -10,8 +10,8 @@ def forward_link_one(model_get: Callable[[], Type[MongoModel]]):
     # TODO: Give the inner functions more meaningful names and potentially more explanation as to how they work.
     def decorator(func: Callable[[MongoModel], dict]):
         @wraps(func)
-        def wrap(self, db: Database):
-            return model_get().find_one(db, query=func(self))
+        def wrap(self):
+            return model_get().find_one(query=func(self))
 
         return wrap
 
@@ -25,8 +25,8 @@ def link_one(model: Type[MongoModel]):
 def forward_link_many(model_get: Callable[[], Type[MongoModel]]):
     def decorator(func: Callable[[MongoModel], dict]):
         @wraps(func)
-        def wrap(self, db: Database):
-            return model_get().find(db, query=func(self))
+        def wrap(self):
+            return model_get().find(query=func(self))
 
         return wrap
 
