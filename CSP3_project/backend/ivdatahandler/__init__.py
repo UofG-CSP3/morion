@@ -6,16 +6,8 @@ from pymongo.database import Database
 from .mongomodel import MongoModel, BaseModel
 from .filereader import read_file
 from .config import setup_mongodb_from_file
-
-
-def upload_file(filename: str, reader: Callable[[str], MongoModel] = None, upsert=False):
-    mongo_model = read_file(filename, reader)
-    if upsert:
-        mongo_model.insert_or_replace()
-    else:
-        mongo_model.insert()
-
-    return mongo_model
-
+from .database import (
+    upload_file, upload_bulk, upload_directory,
+    download_one, download_many)
 
 setup_mongodb_from_file(str(Path(__file__).with_name('config.ini')))

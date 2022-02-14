@@ -39,6 +39,9 @@ class MongoModel(BaseModel):
     class Config:
         extra = Extra.allow
 
+    def __hash__(self):
+        return hash(id)
+
     @classmethod
     def collection(cls) -> Collection:
         """Get the MongoDB Collection representing this model."""
