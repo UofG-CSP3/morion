@@ -41,10 +41,18 @@ def database() -> Database:
     assert _database is not None, 'Database connection not established. Have you made sure to call init_mongo()?'
     return _database
 
+def set_database(db: Database):
+    _database = db
+
 def get_client() -> MongoClient:
     assert _client is not None, 'Client connection not established. Have you made sure to call init_mongo()?'
     return _client
 
+def set_client(client: MongoClient):
+    _database = client
+
+def get_config_info() -> ConfigInfo:
+    return _config_info
 
 
 def change_database(new_db_name: str):
