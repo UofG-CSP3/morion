@@ -42,6 +42,13 @@ def database() -> Database:
     return _database
 
 
+def change_database(new_db_name: str):
+    """Change which database in the MongoDB server to use."""
+    global _database
+    assert _client is not None, 'The MongoDB connection has not yet been initialised.'
+    _database = _client[new_db_name]
+
+
 def format_mongodb_credentials(netloc: str) -> str:
     """
     Properly formats the credentials in the netloc of a MongoDB URI to use percent encoding.
