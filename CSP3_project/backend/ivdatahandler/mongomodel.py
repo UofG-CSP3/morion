@@ -81,7 +81,7 @@ class MongoModel(BaseModel):
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
         """
-        return cls.collection().delete_one(query_merge(query, **kwargs))
+        return cls.collection().delete_one(query_merge(query, **kwargs)).acknowledged
 
     @classmethod
     def delete_many(cls, query: dict = None, **kwargs):
@@ -91,7 +91,7 @@ class MongoModel(BaseModel):
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
         """
-        return cls.collection().delete_many(query_merge(query, **kwargs))
+        return cls.collection().delete_many(query_merge(query, **kwargs)).acknowledged
 
     @classmethod
     def find_one_and_delete(cls, query: dict = None, **kwargs):
@@ -112,7 +112,7 @@ class MongoModel(BaseModel):
 
     def update(self):
         """Update this object in the database."""
-        self.collection().replace_one({'_id': self.id}, to_mongo_dict(self))
+        self.collection().replace_one({'_id': self.id}, to_mongo_dict(self)).acknowledged
 
     def insert_or_replace(self):
         """Either update this object or insert for the first time in the database."""
