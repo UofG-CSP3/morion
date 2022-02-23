@@ -42,6 +42,7 @@ def database() -> Database:
     return _database
 
 def set_database(db: Database):
+    global _database
     _database = db
 
 def get_client() -> MongoClient:
@@ -49,7 +50,9 @@ def get_client() -> MongoClient:
     return _client
 
 def set_client(client: MongoClient):
-    _database = client
+    global _client
+    _client = client
+
 
 def get_config_info() -> ConfigInfo:
     return _config_info

@@ -6,7 +6,8 @@ import mongomock
 from CSP3_project.backend.ivdatahandler import MongoModel
 from CSP3_project.backend.models import Wafer, IVModelReadings, Fabrun, Die, IV
 from CSP3_project.backend.ivdatahandler.mongomodel import query_merge
-from CSP3_project.backend.ivdatahandler.config import get_client, set_client, Database, set_database, get_config_info
+from CSP3_project.backend.ivdatahandler.config import get_client, set_client, database,\
+    set_database, get_config_info, setup_mongodb, change_database
 
 model = MongoModel()
 
@@ -17,16 +18,19 @@ class TestMongoModel(unittest.TestCase):
 
     def setUp(self):
 
-        #Check that both client and database work
-        if get_client() is None or Database.client != get_client() or Database is None:
-            #If not able to connect to mongoDB, use MongoMock
+        #Connect to db
+        try:
+            setup_mongodb(connection="mongodb://mongo", db_name='testdb', connnection_timeout_ms=1000)
+            get_client().server_info()
+            print('HEY')
+        except pymongo.errors.ServerSelectionTimeoutError as err:
+            print(err)
             print("Unable to connect to the local database, using a mock database instead...")
-            set_client(None)
-            set_database(mongomock.MongoClient().mockdb)
-
+            setup_mongodb(connection='mongomock://localhost', db_name='testdb')
+            print('BLEY',get_client(),database())
 
     def tearDown(self):
-        if get_client() is not None:
+        if database() is not mongomock.MongoClient().mockdb:
             get_client().drop_database(get_config_info().database_name)
 
     def test_collection(self):
