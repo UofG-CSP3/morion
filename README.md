@@ -61,8 +61,9 @@ This is a project that allows experimenters to upload their results of Current-V
 
 ### Built With
 
-* [Django](https://www.djangoproject.com/)
 * [MongoDB](https://www.mongodb.com/)
+* [Pydantic](https://pydantic-docs.helpmanual.io/)
+* [Pymongo](https://pypi.org/project/pymongo/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -70,8 +71,15 @@ This is a project that allows experimenters to upload their results of Current-V
 
 <!-- GETTING STARTED -->
 ## Getting Started
+The project has files src and examples. The latter of these are just examples of how to perfrom some of the 
+functionality of the project.
 
+The former however includes all the code of the API's uploading, dowloading, and other features. 
 
+src can be broken down into three sections:
+
+1. Headers
+2. The ivdatahandeler 
 ### Prerequisites
 
 
