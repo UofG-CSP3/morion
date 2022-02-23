@@ -1,5 +1,6 @@
 from configparser import ConfigParser
 from dataclasses import dataclass
+from sqlite3 import connect
 from typing import Optional
 
 from pymongo import MongoClient
@@ -95,7 +96,9 @@ def mongodb_uri_from_config(config: ConfigParser) -> str:
     """
     section_name = 'MongoDB Connect'
 
-    uri = config.get(section_name, 'connection', fallback='localhost')
+    uri = config.get(section_name, 'connection', fallback='mongodb://localhost')
+    if '://' not in uri:
+        uri = 'mongodb://' + uri
     components = urlparse(uri)
 
     def get_params():
@@ -133,7 +136,9 @@ def setup_mongodb(connection: str = None, db_name: str = None):
     :param db_name: The name of the database
     """
 
-    dummy_config = ConfigParser(defaults={'connection':connection})
+    dummy_config = ConfigParser()
+    dummy_config.add_section('MongoDB Connect')
+    dummy_config.set('MongoDB Connect', 'connection', connection)
 
     setup_config_info(ConfigInfo(mongodb_uri=mongodb_uri_from_config(dummy_config), database_name=db_name))
     init_mongo()
