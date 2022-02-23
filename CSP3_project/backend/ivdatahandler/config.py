@@ -1,6 +1,5 @@
 from configparser import ConfigParser
 from dataclasses import dataclass
-from sqlite3 import connect
 from typing import Optional
 
 from pymongo import MongoClient
