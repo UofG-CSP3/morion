@@ -127,7 +127,7 @@ def mongodb_database_name_from_config(config: ConfigParser):
 
     return config.get('MongoDB Database', 'name', fallback='database')
 
-def setup_mongodb(connection: str = None, db_name: str = None):
+def setup_mongodb(connection: str = None, db_name: str = 'database', connnection_timeout_ms: int = 5000):
     """
     Will set up and initialise a MongoDB connection given the connection string and database name.
 
@@ -138,6 +138,7 @@ def setup_mongodb(connection: str = None, db_name: str = None):
     dummy_config = ConfigParser()
     dummy_config.add_section('MongoDB Connect')
     dummy_config.set('MongoDB Connect', 'connection', connection)
+    dummy_config.set('MongoDB Connect', 'serverSelectionTimeoutMS', connnection_timeout_ms)
 
     setup_config_info(ConfigInfo(mongodb_uri=mongodb_uri_from_config(dummy_config), database_name=db_name))
     init_mongo()
