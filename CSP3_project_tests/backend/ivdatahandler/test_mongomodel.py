@@ -188,5 +188,3 @@ class TestMongoModel(unittest.TestCase):
         query1 = {'name': 'a'}
         assert(query_merge(query = query1, wafer = 'b', voltage = 3.1) == {'name': 'a', 'wafer': 'b', 'voltage': 3.1})
 
-if __name__=='__main__':
-    unittest.main()
