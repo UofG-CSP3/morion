@@ -108,7 +108,9 @@ class MongoModel(BaseModel):
     def insert(self):
         """Insert into the database."""
 
-        self.id = self.collection().insert_one(to_mongo_dict(self)).inserted_id
+        inserted = self.collection().insert_one(to_mongo_dict(self))
+        self.id = inserted.inserted_id
+        return inserted.acknowledged
 
     def update(self):
         """Update this object in the database."""
@@ -117,9 +119,11 @@ class MongoModel(BaseModel):
     def insert_or_replace(self):
         """Either update this object or insert for the first time in the database."""
         if self.id is not None:
-            self.id = self.collection().replace_one({'_id': self.id}, to_mongo_dict(self), upsert=True).upserted_id
+            replaced = self.collection().replace_one({'_id': self.id}, to_mongo_dict(self), upsert=True)
+            self.id = replaced.upserted_id
+            return replaced.acknowledged
         else:
-            self.insert()
+            return self.insert()
 
     def find_and_replace(self, query: dict = None, **kwargs):
         """
