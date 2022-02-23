@@ -125,6 +125,18 @@ def mongodb_database_name_from_config(config: ConfigParser):
 
     return config.get('MongoDB Database', 'name', fallback='database')
 
+def setup_mongodb(connection: str = None, db_name: str = None):
+    """
+    Will set up and initialise a MongoDB connection given the connection string and database name.
+
+    :param connection: The connection string
+    :param db_name: The name of the database
+    """
+
+    dummy_config = ConfigParser(defaults={'connection':connection})
+
+    setup_config_info(ConfigInfo(mongodb_uri=mongodb_uri_from_config(dummy_config), database_name=db_name))
+    init_mongo()
 
 def setup_mongodb_from_file(config_file: str):
     """
