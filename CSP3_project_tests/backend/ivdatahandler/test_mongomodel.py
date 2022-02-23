@@ -22,15 +22,15 @@ class TestMongoModel(unittest.TestCase):
         try:
             setup_mongodb(connection="mongodb://mongo", db_name='testdb', connnection_timeout_ms=1000)
             get_client().server_info()
-            print('HEY')
         except pymongo.errors.ServerSelectionTimeoutError as err:
             print(err)
             print("Unable to connect to the local database, using a mock database instead...")
-            setup_mongodb(connection='mongomock://localhost', db_name='testdb')
-            print('BLEY',get_client(),database())
+            #init mongomock
+            set_client(mongomock.MongoClient)
+            set_database(mongomock.MongoClient().mockdb)
 
     def tearDown(self):
-        if database() is not mongomock.MongoClient().mockdb:
+        if get_client() is not mongomock.MongoClient:
             get_client().drop_database(get_config_info().database_name)
 
     def test_collection(self):
@@ -47,14 +47,13 @@ class TestMongoModel(unittest.TestCase):
                    n_channels=2.1111334)
         fabrun_with_nonexistent_wafer = Fabrun(name='fabrun1', wafers=['a','b'], type='neutral-good', resistivity=69.42)
 
-
+        assert(wafer1.insert())
         assert(die.insert())
         die_with_nonexistent_wafer = Die(wafer='aba', name='abc', anode_type='momma', device_type='pappa', size=69.421, pitch=35.23,
                    n_channels=45.133)
         assert(die_with_nonexistent_wafer.insert())
 
         assert(fabrun_with_nonexistent_wafer.insert())
-
 
     def test_a_find_one(self):
         wafer1 = Wafer(name='aaa', production_date=datetime(year=1999, month=1, day=1),
@@ -187,8 +186,6 @@ class TestMongoModel(unittest.TestCase):
 
     def test_query_merge(self):
         query1 = {'name': 'a'}
-        query2 = {'wafer': 'a'}
-        query3 = {'voltage': 3.1}
         assert(query_merge(query = query1, wafer = 'b', voltage = 3.1) == {'name': 'a', 'wafer': 'b', 'voltage': 3.1})
 
 if __name__=='__main__':
