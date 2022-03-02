@@ -27,7 +27,7 @@ def standard_experiment(
 
         # Now parse in the readings
         fields = {index: field for index, field in enumerate(next(experiment_reader))}
-        readings = [{fields[i]: float(val) for i, val in enumerate(line)} for line in experiment_reader]
+        readings = [{fields[i]: val if val != '' else None for i, val in enumerate(line)} for line in experiment_reader]
         experiment_dict['readings'] = readings
 
     return experiment_dict
