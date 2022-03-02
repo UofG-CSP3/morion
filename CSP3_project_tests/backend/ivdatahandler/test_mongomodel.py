@@ -90,7 +90,7 @@ class TestMongoModel(unittest.TestCase):
         iv.insert()
 
         self.assertEqual(Wafer.find_one(query={'name': 'aaa'}),wafer)
-        self.assertEqual(IV.find_one(query={'voltageStep': 3.9}) == iv)
+        self.assertEqual(IV.find_one(query={'voltageStep': 3.9}),iv)
 
     def test_a_find(self):
         """
