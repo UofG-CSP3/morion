@@ -42,6 +42,10 @@ def database() -> Database:
     return _database
 
 
+def get_config_info() -> ConfigInfo:
+    return _config_info
+
+
 def change_database(new_db_name: str):
     """Change which database in the MongoDB server to use."""
     global _database
@@ -126,7 +130,7 @@ def mongodb_database_name_from_config(config: ConfigParser):
     """
 
     return config.get('MongoDB Database', 'name', fallback='database')
-    
+
 
 def setup_mongodb(connection: str = None, db_name: str = 'database', connnection_timeout_ms: int = 5000):
     """

@@ -81,7 +81,7 @@ class MongoModel(BaseModel):
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
         """
-        return cls.collection().delete_one(query_merge(query, **kwargs))
+        return cls.collection().delete_one(query_merge(query, **kwargs)).acknowledged
 
     @classmethod
     def delete_many(cls, query: dict = None, **kwargs):
@@ -91,7 +91,7 @@ class MongoModel(BaseModel):
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
         """
-        return cls.collection().delete_many(query_merge(query, **kwargs))
+        return cls.collection().delete_many(query_merge(query, **kwargs)).acknowledged
 
     @classmethod
     def find_one_and_delete(cls, query: dict = None, **kwargs):
@@ -108,18 +108,21 @@ class MongoModel(BaseModel):
     def insert(self):
         """Insert into the database."""
 
-        self.id = self.collection().insert_one(to_mongo_dict(self)).inserted_id
+        inserted = self.collection().insert_one(to_mongo_dict(self))
+        self.id = inserted.inserted_id
+        return inserted.acknowledged
 
     def update(self):
         """Update this object in the database."""
-        self.collection().replace_one({'_id': self.id}, to_mongo_dict(self))
+        return self.collection().replace_one({'_id': self.id}, to_mongo_dict(self)).acknowledged
 
     def insert_or_replace(self):
         """Either update this object or insert for the first time in the database."""
         if self.id is not None:
-            self.id = self.collection().replace_one({'_id': self.id}, to_mongo_dict(self), upsert=True).upserted_id
+            replaced = self.collection().replace_one({'_id': self.id}, to_mongo_dict(self), upsert=True)
+            return replaced.acknowledged
         else:
-            self.insert()
+            return self.insert()
 
     def find_and_replace(self, query: dict = None, **kwargs):
         """
