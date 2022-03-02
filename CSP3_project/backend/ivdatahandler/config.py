@@ -36,21 +36,10 @@ def init_mongo():
     _client = MongoClient(_config_info.mongodb_uri)
     _database = _client[_config_info.database_name]
 
+
 def database() -> Database:
     assert _database is not None, 'Database connection not established. Have you made sure to call init_mongo()?'
     return _database
-
-def set_database(db: Database):
-    global _database
-    _database = db
-
-def get_client() -> MongoClient:
-    assert _client is not None, 'Client connection not established. Have you made sure to call init_mongo()?'
-    return _client
-
-def set_client(client: MongoClient):
-    global _client
-    _client = client
 
 
 def get_config_info() -> ConfigInfo:
@@ -141,7 +130,7 @@ def mongodb_database_name_from_config(config: ConfigParser):
     """
 
     return config.get('MongoDB Database', 'name', fallback='database')
-    
+
 
 def setup_mongodb(connection: str = None, db_name: str = 'database', connnection_timeout_ms: int = 5000):
     """

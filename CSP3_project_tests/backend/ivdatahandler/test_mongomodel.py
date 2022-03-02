@@ -6,8 +6,8 @@ import mongomock
 from CSP3_project.backend.ivdatahandler import MongoModel
 from CSP3_project.backend.models import Wafer, IVModelReadings, Fabrun, Die, IV
 from CSP3_project.backend.ivdatahandler.mongomodel import query_merge
-from CSP3_project.backend.ivdatahandler.config import get_client, set_client, database, \
-    set_database, get_config_info, setup_mongodb, change_database
+from CSP3_project.backend.ivdatahandler.config import get_config_info, setup_mongodb, change_database
+import CSP3_project.backend.ivdatahandler.config as config
 
 model = MongoModel()
 
@@ -19,22 +19,21 @@ class TestMongoModel(unittest.TestCase):
         # Connect to db
         try:
             setup_mongodb(connection="mongodb://mongo", db_name='testdb', connnection_timeout_ms=1000)
-            get_client().server_info()
+            config._client.server_info()
         except pymongo.errors.ServerSelectionTimeoutError as err:
             print(err)
             print("Unable to connect to the local database, using a mock database instead...")
             # init mongomock
-            set_client(mongomock.MongoClient)
-            set_database(mongomock.MongoClient().mockdb)
+            config._client = mongomock.MongoClient
+            config._database = mongomock.MongoClient().mockdb
 
     def tearDown(self):
-        if get_client() is not mongomock.MongoClient:
-            get_client().drop_database(get_config_info().database_name)
+        if config._client is not mongomock.MongoClient:
+            config._client.drop_database(get_config_info().database_name)
 
     def test_collection(self):
         """
         Tests that the collection function does not return None
-
         """
         collection = model.collection()
         self.assertTrue(collection is not None)
