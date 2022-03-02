@@ -37,7 +37,7 @@ class TestMongoModel(unittest.TestCase):
 
         """
         collection = model.collection()
-        assert collection is not None
+        self.assertTrue(collection is not None)
 
     def test_a_insert(self):
         """
@@ -59,14 +59,14 @@ class TestMongoModel(unittest.TestCase):
         fabrun_with_nonexistent_wafer = Fabrun(name='fabrun1', wafers=['a', 'b'], type='neutral-good',
                                                resistivity=69.42)
 
-        assert (wafer1.insert())
-        assert (die.insert())
+        self.assertTrue(wafer1.insert())
+        self.assertTrue(die.insert())
         die_with_nonexistent_wafer = Die(wafer='aba', name='abc', anode_type='momma', device_type='pappa', size=69.421,
                                          pitch=35.23,
                                          n_channels=45.133)
-        assert (die_with_nonexistent_wafer.insert())
+        self.assertTrue(die_with_nonexistent_wafer.insert())
 
-        assert (fabrun_with_nonexistent_wafer.insert())
+        self.assertTrue(fabrun_with_nonexistent_wafer.insert())
 
     def test_a_find_one(self):
         """
@@ -90,8 +90,8 @@ class TestMongoModel(unittest.TestCase):
         wafer.insert()
         iv.insert()
 
-        assert (Wafer.find_one(query={'name': 'aaa'}) == wafer)
-        assert (IV.find_one(query={'voltageStep': 3.9}) == iv)
+        self.assertEqual(Wafer.find_one(query={'name': 'aaa'}),wafer)
+        self.assertEqual(IV.find_one(query={'voltageStep': 3.9}) == iv)
 
     def test_a_find(self):
         """
@@ -113,9 +113,9 @@ class TestMongoModel(unittest.TestCase):
         wafer2.insert()
 
         wafers_GOLD = Wafer.find(query={'material_type': 'GOLD'})
-        assert (len(wafers_GOLD) == 2)
-        assert (wafer1 in wafers_GOLD)
-        assert (wafer2 in wafers_GOLD)
+        self.assertEqual(len(wafers_GOLD),2)
+        self.assertTrue(wafer1 in wafers_GOLD)
+        self.assertTrue(wafer2 in wafers_GOLD)
 
     def test_delete_one(self):
         """
@@ -134,9 +134,9 @@ class TestMongoModel(unittest.TestCase):
         die2.insert()
         die3.insert()
 
-        assert (Die.delete_one(query={'size': 69.421}))
-        assert (Die.find(query={'size': 69.421}) == ())
-        assert (len(Die.find(query={})) == 2)
+        self.assertTrue(Die.delete_one(query={'size': 69.421}))
+        self.assertEqual(Die.find(query={'size': 69.421}),())
+        self.assertEqual(len(Die.find(query={})),2)
 
     def test_delete_many(self):
         """
@@ -154,9 +154,9 @@ class TestMongoModel(unittest.TestCase):
         die2.insert()
         die3.insert()
 
-        assert (Die.delete_many(query={'wafer': 'aaa'}))
-        assert (Die.find(query={'wafer': 'aaa'}) == ())
-        assert (len(Die.find(query={})) == 1)
+        self.assertTrue(Die.delete_many(query={'wafer': 'aaa'}))
+        self.assertEqual(Die.find(query={'wafer': 'aaa'}),())
+        self.assertEqual(len(Die.find(query={})),1)
 
     def test_find_one_and_delete(self):
         """
@@ -180,8 +180,8 @@ class TestMongoModel(unittest.TestCase):
         wafer1.insert()
         wafer2.insert()
 
-        assert (Wafer.find_one_and_delete(query={'name': 'a'}) == wafer1)
-        assert (Wafer.find_one(query={'name': 'aaa'}) is None)
+        self.assertEqual(Wafer.find_one_and_delete(query={'name': 'a'}),wafer1)
+        self.assertTrue(Wafer.find_one(query={'name': 'aaa'}) is None)
 
     def test_update(self):
         """
@@ -195,10 +195,10 @@ class TestMongoModel(unittest.TestCase):
                          size=69.23, pitch=35.23,
                          n_channels=45.133)
 
-        assert (die_update.update())
+        self.assertTrue(die_update.update())
         all_dies = Die.find()
-        assert (die_update in all_dies)
-        assert (die not in all_dies)
+        self.assertTrue(die_update in all_dies)
+        self.assertTrue(die not in all_dies)
 
     def test_insert_or_replace(self):
         """
@@ -210,13 +210,13 @@ class TestMongoModel(unittest.TestCase):
         """
         die = Die(wafer='bbb', name='a', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
                   n_channels=3.25)
-        assert (die.insert_or_replace())
+        self.assertTrue(die.insert_or_replace())
         replacement_die = Die(id=die.id, wafer='bbb', name='a', anode_type='anode', device_type='device', size=2.12,
                               pitch=3.13,
                               n_channels=3.15)
-        assert (replacement_die.insert_or_replace())
-        assert (replacement_die in Die.find())
-        assert (die not in Die.find())
+        self.assertTrue(replacement_die.insert_or_replace())
+        self.assertTrue(replacement_die in Die.find())
+        self.assertTrue(die not in Die.find())
 
     # def test_find_and_replace(self):
     #   die1 = Die(wafer='aaa', name='a', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
@@ -238,7 +238,7 @@ class TestMongoModel(unittest.TestCase):
         wafer.insert()
 
         wafer.delete()
-        assert (Wafer.find(query={}) == ())
+        self.assertEqual(Wafer.find(query={}),())
 
     def test_query_merge(self):
         """
@@ -246,4 +246,4 @@ class TestMongoModel(unittest.TestCase):
         two additional queries are being merged into a single dictionary.
         """
         query1 = {'name': 'a'}
-        assert (query_merge(query=query1, wafer='b', voltage=3.1) == {'name': 'a', 'wafer': 'b', 'voltage': 3.1})
+        self.assertEqual(query_merge(query=query1, wafer='b', voltage=3.1),{'name': 'a', 'wafer': 'b', 'voltage': 3.1})
