@@ -36,7 +36,6 @@ def init_mongo():
     _client = MongoClient(_config_info.mongodb_uri)
     _database = _client[_config_info.database_name]
 
-
 def database() -> Database:
     assert _database is not None, 'Database connection not established. Have you made sure to call init_mongo()?'
     return _database
