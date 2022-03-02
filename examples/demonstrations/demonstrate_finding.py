@@ -30,3 +30,16 @@ find_one("IV_wafer_iLGAD_3374-15_die_0_0.txt", institution="University of Glasgo
 
 find("IV_wafer_iLGAD_3374-15_die_0_0.txt", institution="University of Glasgow")
 
+# 3. Analyze the find_one_and_delete method.
+
+# This method can be used to find a given entry in the database and delete it.
+# It will delete only one instance
+
+find_one_and_delete("IV_wafer_iLGAD_3374-15_die_0_0.txt", author="John Johnson")
+
+# 4. Analyze the find_one_replace method.
+
+# This method can be used to find a given entry in the database and delete it.
+# It will delete only one instance
+
+find_one_and_replace("IV_wafer_iLGAD_3374-15_die_0_0.txt", comment="I love steak")
