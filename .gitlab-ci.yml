@@ -14,6 +14,7 @@ before_script:
     - virtualenv venv
     - source venv/bin/activate
     - pip install pylint
+    - pip install mongomock
     - pip install -r requirements.txt
 
 stages:
