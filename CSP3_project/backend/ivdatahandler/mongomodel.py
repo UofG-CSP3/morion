@@ -132,6 +132,7 @@ class MongoModel(BaseModel):
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
         :return: The model object that was replaced.
         """
+        self.id = None
         replaced = self.collection().find_one_and_replace(query_merge(query, **kwargs), to_mongo_dict(self))
         if replaced:
             return type(self)(**replaced)
