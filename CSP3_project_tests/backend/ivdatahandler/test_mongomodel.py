@@ -232,7 +232,7 @@ class TestMongoModel(unittest.TestCase):
         new_die = Die(wafer='bbb', name='b', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
               n_channels=3.25)
         old_die.insert()
-        self.assertEqual(new_die.find_and_replace(query={'name': 'a'}),die1)
+        self.assertEqual(new_die.find_and_replace(query={'name': 'a'}),old_die)
         self.assertTrue(old_die not in Die.find())
         self.assertEqual(len(Die.find()),1)
         new_die.id = old_die.id
