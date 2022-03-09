@@ -1,5 +1,5 @@
-from .ivdatahandler.filewriter import register_writer
-from .ivdatahandler.standard_writers import standard_experiment_write, standard_component_write
+from morion.filewriter import register_writer
+from .standard_writers import standard_experiment_write, standard_component_write
 from .models import IV, Wafer, Die
 from pathlib import Path
 

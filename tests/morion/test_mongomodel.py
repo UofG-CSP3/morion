@@ -3,11 +3,11 @@ import unittest
 import pymongo
 import mongomock
 
-from CSP3_project.backend.ivdatahandler import MongoModel
-from CSP3_project.backend.models import Wafer, IVModelReadings, Fabrun, Die, IV
-from CSP3_project.backend.ivdatahandler.mongomodel import query_merge
-from CSP3_project.backend.ivdatahandler.config import get_config_info, setup_mongodb, change_database
-import CSP3_project.backend.ivdatahandler.config as config
+from morion import MongoModel
+from CSP3_project.models import Wafer, IVModelReadings, Fabrun, Die, IV
+from morion.mongomodel import query_merge
+from morion.config import get_config_info, setup_mongodb, change_database
+import morion.config as config
 
 model = MongoModel()
 

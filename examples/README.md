@@ -10,7 +10,7 @@ Here's a [stack overflow](https://stackoverflow.com/a/4383597) which you can use
 
 ## Setting up the database
 
-Navigate to `CSP3_project/backend/ivdatahandler/` and open the `config.ini` file.
+Navigate to `src/morion/` and open the `config.ini` file.
 In it, you should see the variables `connection` and `database`. Assign `connection` to the MongoDB
 uri you want to connect to. For example, your uri may look something like `mongodb://<username>:<password>@<url>`,
 in which case you `config.ini` should have the line `connection = mongodb://<username>:<password>@<url>`.
