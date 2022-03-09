@@ -217,13 +217,34 @@ class TestMongoModel(unittest.TestCase):
         self.assertTrue(replacement_die in Die.find())
         self.assertTrue(die not in Die.find())
 
-    # def test_find_and_replace(self):
-    #   die1 = Die(wafer='aaa', name='a', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
-    #            n_channels=2.1111334)
-    # die2 = Die(wafer='bbb', name='b', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
-    #           n_channels=3.25)
-    # print (die2.find_and_replace(, query={'name': 'a'}))
-    # assert (die1 not in Die.find())
+    def test_find_and_replace(self):
+        """
+        Tests find_and_replace() by having an old die in the db, then using find_and_replace
+        to find and replace that die with a new one, that had not been yet inserted into the db,
+        asserting that the method returns the old die, that it cannot be found in the db anymore,
+        that the only die in the db is the new die and that its id has been changed to that of
+        the old die.
+        Further tests replacing a die in the db with a die taken directly from the db with Die.find_one.
+
+        """
+        old_die = Die(wafer='aaa', name='a', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
+               n_channels=2.1111334)
+        new_die = Die(wafer='bbb', name='b', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
+              n_channels=3.25)
+        old_die.insert()
+        self.assertEqual(new_die.find_and_replace(query={'name': 'a'}),old_die)
+        self.assertTrue(old_die not in Die.find())
+        self.assertEqual(len(Die.find()),1)
+        new_die.id = old_die.id
+        self.assertEqual(Die.find_one(query={}),new_die)
+        self.assertTrue(Die.find_one().id==old_die.id)
+        die3 = Die(wafer='aaa', name='c', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
+                   n_channels=2.1111334)
+        die3.insert()
+        die_from_db = Die.find_one(query={'name' : 'b'})
+        self.assertEqual(die_from_db.find_and_replace(query={'name': 'c'}),die3)
+        self.assertTrue(die3 not in Die.find())
+
 
     def test_delete(self):
         """
@@ -246,3 +267,6 @@ class TestMongoModel(unittest.TestCase):
         """
         query1 = {'name': 'a'}
         self.assertEqual(query_merge(query=query1, wafer='b', voltage=3.1),{'name': 'a', 'wafer': 'b', 'voltage': 3.1})
+
+if __name__=='__main__':
+    unittest.main()
