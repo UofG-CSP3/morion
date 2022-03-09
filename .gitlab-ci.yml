@@ -16,6 +16,7 @@ before_script:
     - pip install pylint
     - pip install mongomock
     - pip install -r requirements.txt
+    - pip install .
 
 stages:
     - Static Analysis
@@ -26,7 +27,7 @@ pylint:
   tags:
     - docker
   script:
-    - pylint -d C0301 CSP3_project/*.py
+    - pylint -d C0301 src/*.py
 
 tests:
   stage: Test

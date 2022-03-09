@@ -1,5 +1,5 @@
-from backend.ivdatahandler.config import database
-from backend.ivdatahandler import upload_directory
+from morion.config import database
+from morion import upload_directory
 
 
 def clear_database():

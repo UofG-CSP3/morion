@@ -1,5 +1,5 @@
-from backend.ivdatahandler import download_one, download_many
-from backend.models import IV, Wafer, Die
+from morion import download_one, download_many
+from CSP3_project.models import IV, Wafer, Die
 from demonstration_Feb import clear_database, upload_all
 
 
@@ -20,7 +20,7 @@ download_one(Wafer, name='iLGAD_3374-15')
 # the wafer, the die name, and the anode type of the downloaded die.
 download_one(Die, "{wafer}_{name}_{anode_type}.txt", device_type='iLGAD')
 
-# In the above line, the fields in the format string need to match the fields for Die (defined in backend/models.py)
+# In the above line, the fields in the format string need to match the fields for Die (defined in CSP3_project/models.py)
 
 
 # 2. Downloading multiple documents

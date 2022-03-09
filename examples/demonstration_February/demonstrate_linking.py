@@ -1,4 +1,4 @@
-from backend.models import IV, Wafer, Die
+from CSP3_project.models import IV, Wafer, Die
 from demonstration_Feb import upload_all
 
 

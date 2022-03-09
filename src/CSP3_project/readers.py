@@ -1,8 +1,8 @@
 from datetime import datetime
 from pathlib import Path
 
-from .ivdatahandler.filereader import register_reader
-from .ivdatahandler.standard_readers import standard_experiment, standard_component
+from morion.filereader import register_reader
+from .standard_readers import standard_experiment, standard_component
 
 from .models import IV, Wafer, Die
 

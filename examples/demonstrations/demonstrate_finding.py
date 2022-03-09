@@ -1,6 +1,6 @@
-from backend.ivdatahandler import download_one, download_many
-from backend.models import IV, Wafer, Die
-from demonstration_Feb import clear_database, upload_all
+from morion import find_one, find, find_one_and_delete, find_one_and_replace
+from CSP3_project.models import IV, Wafer, Die
+from demonstration_February import clear_database, upload_all
 
 # 1. First upload a test file (see demonstrate_uploading.py) to test, in this case just upload one file
 

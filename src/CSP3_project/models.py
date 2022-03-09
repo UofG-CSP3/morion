@@ -3,8 +3,8 @@ from typing import Optional
 
 from pydantic import Field, root_validator
 
-from .ivdatahandler import MongoModel, BaseModel
-from .ivdatahandler.model_decorators import (
+from morion.mongomodel import MongoModel, BaseModel
+from morion.model_decorators import (
     link_one,
     forward_link_one,
     link_many
