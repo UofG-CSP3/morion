@@ -27,7 +27,7 @@ pylint:
   tags:
     - docker
   script:
-    - pylint -d C0301 src/*/*.py
+    - pylint --fail-under=6 -d C0301 src/*/*.py
 
 tests:
   stage: Test
