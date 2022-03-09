@@ -26,6 +26,7 @@ class BaseModel(PydanticBaseModel):
     """Base model allows for the use of field name when constructing."""
     class Config:
         allow_population_by_field_name = True
+        validate_assignment = True
 
 
 class MongoModel(BaseModel):
