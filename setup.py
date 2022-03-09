@@ -10,5 +10,9 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
+    install_requires=[
+        'pydantic>=1.9',
+        'pymongo>=4'
+    ],
     python_requires=">=3.7",
 )
