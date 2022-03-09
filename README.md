@@ -113,7 +113,7 @@ See the [open issues](https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-
 <!-- LICENSE -->
 ## License
 
-Distributed under the --- License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
