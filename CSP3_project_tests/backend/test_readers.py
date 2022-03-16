@@ -1,6 +1,7 @@
 import unittest
 
 from CSP3_project.backend.readers import *
+from examples.demonstration_February.create_test_files import *
 
 class TestReader(unittest.TestCase):
 
@@ -27,36 +28,34 @@ class TestReader(unittest.TestCase):
 
 
     def test_is_wafer(self):
-        #No example wafer files so can't test this
-        #wafer_filepath =
+        wafer_filepath = Path(__file__).parent.parent.parent / 'test_files' / 'Wafer1'
+        create_wafer_file('iLGAD_3374-15', wafer_filepath)
         not_wafer_filepath = Path(__file__).parent.parent.parent / 'test_files' / 'IV_wafer_iLGAD_3374-15_die_0_0.txt'
-        # self.assertTrue(is_wafer(wafer_filepath))
+        self.assertTrue(is_wafer(wafer_filepath))
         self.assertFalse(is_wafer(not_wafer_filepath))
 
     def test_wafer_reader(self):
-        print('No test files')
-        #Any example wafer files?
-        #wafer_filepath =
-        #file_with_missing_component = file with component not in it
-        #file_with_no_production_date = file with no production date in it
-        #self.assertTrue(wafer_reader(wafer_filepath))
-        #self.assertFalse(wafer_reader(file_with_missing_component))
-        #self.assertFalse(wafer_reader(file_with_no_production_date))
+        wafer_filepath = Path(__file__).parent.parent.parent / 'test_files' / 'Wafer1'
+        create_wafer_file('iLGAD_3374-15', wafer_filepath)
+        file_with_no_production_date = Path(__file__).parent.parent.parent / 'test_files' / 'Wafer2'
+        create_corrupt_wafer_file('iLGAD_3374-15', file_with_no_production_date)
+        self.assertTrue(wafer_reader(wafer_filepath))
+        self.assertFalse(wafer_reader(file_with_no_production_date))
 
     def test_is_die(self):
-        # No example die files so can't test this
-        # die_filepath =
+        die_filepath = Path(__file__).parent.parent.parent / 'test_files' / 'Die1'
+        create_die_file('iLGAD_3374-15', 'Die1', die_filepath)
         not_die_filepath = Path(__file__).parent.parent.parent / 'test_files' / 'IV_wafer_iLGAD_3374-15_die_0_0.txt'
-        # self.assertTrue(is_die(die_filepath))
+        self.assertTrue(is_die(die_filepath))
         self.assertFalse(is_die(not_die_filepath))
 
-    def die_reader(self):
-        print('No test files')
-        #Any example die files?
-        #die_filepath =
-        #file_with_missing_component = file with component not in it
-        #self.assertTrue(die_reader(die_filepath))
-        #self.assertFalse(die_reader(file_with_missing_component))
+    def test_die_reader(self):
+        die_filepath = Path(__file__).parent.parent.parent / 'test_files' / 'Die1'
+        create_die_file('iLGAD_3374-15', 'Die1', die_filepath)
+        file_with_missing_component = Path(__file__).parent.parent.parent / 'test_files' / 'Die2'
+        create_corrupt_die_file('iLGAD_3374-15', 'Die2', file_with_missing_component)
+        self.assertTrue(die_reader(die_filepath))
+        self.assertFalse(die_reader(file_with_missing_component))
 
 if __name__ == '__main__':
     unittest.main()
