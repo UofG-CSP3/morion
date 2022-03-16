@@ -20,6 +20,8 @@ class ReadError(MorionError):
 
 
 class ReadListError(ReadError):
+    """Error for when readers try and fail to read a file"""
+
     def __init__(self, reader_errors: list[FunctionErrorPair]):
         super(ReadError, self).__init__(ReadListError.format_error(reader_errors))
 
@@ -36,6 +38,8 @@ class WriteError(MorionError):
 
 
 class WriteListError(WriteError):
+    """Error for when writers try and fail to write a file"""
+
     def __init__(self, writer_errors: list[FunctionErrorPair], ):
         super(WriteError, self).__init__(WriteListError.format_error(writer_errors))
 
