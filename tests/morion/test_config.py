@@ -72,5 +72,5 @@ class TestConfig(unittest.TestCase):
         self.assertTrue(uri2 == "mongodb://mongo/?serverselectiontimeoutms=5000")
         self.assertTrue(uri3 == "mongodb://l%C3%B6g%C3%ADn:p%C3%A1%C3%9Fw%C3%B6rd@example.domain.name.com/?serverselectiontimeoutms=200")
 
-    if __name__=='__main__':
-        unittest.main()
+if __name__=='__main__':
+    unittest.main()
