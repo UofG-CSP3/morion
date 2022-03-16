@@ -4,8 +4,7 @@
 
 <br />
 
-<h3 align="center">Morion</h3>
-
+## Morion
 Morion is a python framework for easily interacting with documents in a MongoDB database.
 
 
