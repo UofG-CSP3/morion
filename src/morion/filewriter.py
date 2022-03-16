@@ -1,7 +1,7 @@
-
 from dataclasses import dataclass
 from typing import Callable, Type
 
+from .errors import WriteError, FunctionErrorPair, WriteListError
 from .mongomodel import MongoModel
 
 
@@ -47,15 +47,20 @@ def write_file(filepath: str, model: MongoModel, writer: Callable[[str, MongoMod
     if writer is not None:
         return writer(filepath, model)
 
+    if len(writers) == 0:
+        raise WriteError("No readers have been registered. Make sure that your readers have been imported.")
+
     filtered_writers = [fr.writer for fr in filter_writers(filepath, model)]
 
+    if len(filtered_writers) == 0:
+        raise WriteError("None of the registered writers say they can create a file for this model.")
+
+    writer_errors: list[FunctionErrorPair] = []
 
     for writer in filtered_writers:
         try:
             return writer(filepath, model)
-        # TODO: The below except is FAR too broad.
         except Exception as err:
-            # TODO: Maybe change this to log something instead of just silently ignoring it?
-            pass
+            writer_errors.append(FunctionErrorPair(writer, err))
 
-    raise ValueError("No writer could write this file.")
+    raise WriteListError(writer_errors)
