@@ -1,4 +1,6 @@
-
+"""
+This module handles the interaction with file writers.
+"""
 from dataclasses import dataclass
 from typing import Callable, Type
 
@@ -39,11 +41,24 @@ def register_writer(model: Type[MongoModel], use_when: Callable[[str], bool], pr
 
 
 def filter_writers(filepath: str, model: MongoModel):
+    """
+    This method selects the appropriate writers to use for writing a model to a file
+    :param filepath: Path to file into which will be written
+    :param model: The model that will be written into the file
+    :return: The appropriate writers to use
+    """
     return sorted([r for r in writers if r.use_when(filepath) and isinstance(model, r.model)],
                   key=lambda r: r.priority, reverse=True)
 
 
 def write_file(filepath: str, model: MongoModel, writer: Callable[[str, MongoModel], bool] = None) -> bool:
+    """
+    This method writes a model into a file
+    :param filepath: Path to file into which will be written
+    :param model: The model that will be written into the file
+    :param writer: The writer to use, if None, will select an appropriate writer
+    :return: True, if the writing process was successful, False if not
+    """
     if writer is not None:
         return writer(filepath, model)
 

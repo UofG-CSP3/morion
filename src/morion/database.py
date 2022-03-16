@@ -1,3 +1,6 @@
+"""
+This module handles uploading and downloading from the database.
+"""
 from pathlib import Path
 from typing import Callable, Type, Iterable
 from glob import glob

@@ -1,3 +1,7 @@
+"""
+This module contains the class MongoModel,
+that serves as the base model for all object types stored in the database.
+"""
 from typing import Any
 
 from pydantic import Field, BaseModel as PydanticBaseModel, Extra
