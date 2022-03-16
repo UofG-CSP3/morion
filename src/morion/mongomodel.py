@@ -144,7 +144,7 @@ class MongoModel(BaseModel):
 
     @classmethod
     def no_validate_construct(cls, d: dict) -> MongoModel:
-        """ Construct a model from a dictionary without validation. """"
+        """ Construct a model from a dictionary without validation. """
         d['id'] = d.pop('_id')
         return cls.construct(**d)
 
