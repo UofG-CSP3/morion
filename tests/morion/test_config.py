@@ -37,7 +37,7 @@ class TestConfig(unittest.TestCase):
         self.assertTrue(get_config_info().database_name == "test_setup_mongodb")
 
     def test_setup_mongodb_from_file(self):
-        setup_mongodb_from_file(str((Path(__file__).parents[2] / 'src' / 'morion' / 'config.ini').resolve()))
+        setup_mongodb_from_file(str((Path(__file__).with_name('config.ini'))))
         self.assertTrue(get_config_info().mongodb_uri == "mongodb://mongo/?serverselectiontimeoutms=1000")
         self.assertTrue(get_config_info().database_name == "database")
 
