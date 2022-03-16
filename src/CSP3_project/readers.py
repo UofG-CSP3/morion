@@ -2,7 +2,7 @@ from datetime import datetime
 from pathlib import Path
 
 from morion.filereader import register_reader
-from .standard_readers import standard_experiment, standard_component
+from .reader_templates import standard_experiment, standard_component
 
 from .models import IV, Wafer, Die
 
