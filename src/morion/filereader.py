@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import Callable
 
 from .mongomodel import MongoModel
+from .errors import FunctionErrorPair, ReadError, ReadListError
 
 
 @dataclass
@@ -42,14 +43,21 @@ def read_file(filepath: str, reader: Callable[[str], MongoModel] = None) -> Mong
     if reader is not None:
         return reader(filepath)
 
+    if len(readers) == 0:
+        raise ReadError("No readers have been registered. Make sure that your readers have been imported.")
+
     filtered_readers = [fr.reader for fr in filter_readers(filepath)]
+
+    if len(filtered_readers) == 0:
+        raise ReadError("None of the registered readers say they can read this file. Make sure that the file path "
+                        "given exists and the file is formatted correctly.")
+
+    reader_errors: list[FunctionErrorPair] = []
 
     for reader in filtered_readers:
         try:
             return reader(filepath)
-        # TODO: The below except is FAR too broad.
         except Exception as err:
-            # TODO: Maybe change this to log something instead of just silently ignoring it?
-            pass
+            reader_errors.append(FunctionErrorPair(reader, err))
 
-    raise ValueError("No reader could read this file.")
+    raise ReadListError(reader_errors=reader_errors)
