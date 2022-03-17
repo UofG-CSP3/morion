@@ -10,4 +10,7 @@ from .database import (
     upload_file, upload_bulk, upload_directory,
     download_one, download_many)
 
-setup_mongodb_from_file(str(Path(__file__).with_name('config.ini')))
+if Path('config.ini').exists():
+    setup_mongodb_from_file('config.ini')
+else:
+    setup_mongodb_from_file(str(Path(__file__).with_name('config.ini')))
