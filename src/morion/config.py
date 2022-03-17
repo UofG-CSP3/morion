@@ -10,6 +10,7 @@ from pymongo import MongoClient
 from urllib.parse import urlencode, urlparse, parse_qs, quote_plus
 
 from pymongo.database import Database
+from pymongo.uri_parser import parse_uri, InvalidURI
 
 
 @dataclass
@@ -138,6 +139,54 @@ def mongodb_database_name_from_config(config: ConfigParser):
 
     return config.get('MongoDB Database', 'name', fallback='database')
 
+def setup():
+    """
+    Interactive version of setup_mongodb and setup_mongodb_from_file methods. 
+    Asks the user to input options for database connection instantiation one by one.
+    Provides the user with an option to save this configuration in a file.
+    """
+
+    print("Welcome to Morion configuration wizard. Please follow the instructions below to set up your database connection.")
+    uri = input("Please enter your connection string: ")
+    while True:
+        try:
+            if '://' not in uri:
+                uri = 'mongodb://' + uri
+            parse_uri(uri)
+            break
+        except InvalidURI:
+            uri  = input("Invalid connection string. Please try again: ")
+    
+    serverselectiontimeoutms = input("Please specify the connection timeout value in milliseconds: ")
+    while True:
+        try:
+            serverselectiontimeoutms = int(serverselectiontimeoutms)
+            break
+        except:
+            serverselectiontimeoutms = input("Invalid value. Please try again: ")
+
+    database_name = input("Please enter the name of the database to connect to: ")
+
+    setup_mongodb(connection=uri, db_name=database_name, connnection_timeout_ms=serverselectiontimeoutms)
+
+    ans = input("The connection has been set up. Would you like to save this configuration in a config.ini file? [y/n] ")
+
+    if ans.strip().lower()[0] == 'y':
+        with open('config.ini', 'w') as cfg:
+            cfg.write(f"""
+[MongoDB Connect]
+# Change connection name to your MongoDB connection string.
+connection = {uri}
+
+# Example of specifying an additional option.
+serverSelectionTimeoutMS = {serverselectiontimeoutms}
+
+# For documentation on how to format connection strings, as well as a list of all additional options,
+# see the official MongoDB Documentation: https://docs.mongodb.com/manual/reference/connection-string/
+
+[MongoDB Database]
+name = {database_name}
+            """)
 
 def setup_mongodb(connection: str = None, db_name: str = 'database', connnection_timeout_ms: int = 5000):
     """
