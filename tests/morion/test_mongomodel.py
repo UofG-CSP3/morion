@@ -268,5 +268,17 @@ class TestMongoModel(unittest.TestCase):
         query1 = {'name': 'a'}
         self.assertEqual(query_merge(query=query1, wafer='b', voltage=3.1),{'name': 'a', 'wafer': 'b', 'voltage': 3.1})
 
+    def test_no_validate_construct(self):
+        """
+        Tests no_validate_construct() by putting a Die object in the database, retrieving it in the form of a dictionary, constructing
+        a new object from it using no_validate_construct() and comparing it to the old one.
+        """
+        die = Die(wafer='lorem', name='ipsum', anode_type='dolor', device_type='sit', size=24.45, pitch=51.51, n_channels=3.1415)
+        die.insert()
+
+        die_dict = Die.collection().find_one({'wafer': 'lorem'})
+        restored_die = Die.no_validate_construct(die_dict)
+        self.assertTrue(die == restored_die)
+
 if __name__=='__main__':
     unittest.main()
