@@ -1,5 +1,5 @@
 from morion.filewriter import register_writer
-from .standard_writers import standard_experiment_write, standard_component_write
+from .writer_templates import standard_experiment_write, standard_component_write
 from .models import IV, Wafer, Die
 from pathlib import Path
 
