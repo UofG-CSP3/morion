@@ -1,11 +1,18 @@
+"""
+This module handles the interaction with file readers.
+"""
 from dataclasses import dataclass
 from typing import Callable
 
 from .mongomodel import MongoModel
+from .errors import FunctionErrorPair, ReadError, ReadListError
 
 
 @dataclass
 class FileReader:
+    """
+    This class is used to read files and interpret them for the database.
+    """
     reader: Callable[[str], MongoModel]
     use_when: Callable[[str], bool]
     priority: int
@@ -35,21 +42,39 @@ def register_reader(use_when: Callable[[str], bool], priority: int = 1):
 
 
 def filter_readers(filepath: str):
+    """
+    This method selects the appropriate readers to use for reading a model from a file
+    :param filepath: Path to file from which will be read
+    :return: The appropriate readers to use
+    """
     return sorted([r for r in readers if r.use_when(filepath)], key=lambda r: r.priority, reverse=True)
 
 
 def read_file(filepath: str, reader: Callable[[str], MongoModel] = None) -> MongoModel:
+    """
+    This method reads a model from a file
+    :param filepath: Path to file from which will be read
+    :param writer: The reader to use, if None, will select an appropriate reader
+    :return: The model that has been read from the file
+    """
     if reader is not None:
         return reader(filepath)
 
+    if len(readers) == 0:
+        raise ReadError("No readers have been registered. Make sure that your readers have been imported.")
+
     filtered_readers = [fr.reader for fr in filter_readers(filepath)]
+
+    if len(filtered_readers) == 0:
+        raise ReadError("None of the registered readers say they can read this file. Make sure that the file path "
+                        "given exists and the file is formatted correctly.")
+
+    reader_errors: list[FunctionErrorPair] = []
 
     for reader in filtered_readers:
         try:
             return reader(filepath)
-        # TODO: The below except is FAR too broad.
         except Exception as err:
-            # TODO: Maybe change this to log something instead of just silently ignoring it?
-            pass
+            reader_errors.append(FunctionErrorPair(reader, err))
 
-    raise ValueError("No reader could read this file.")
+    raise ReadListError(reader_errors=reader_errors)

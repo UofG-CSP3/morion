@@ -4,7 +4,7 @@ import pymongo
 import mongomock
 
 from morion import MongoModel
-from CSP3_project.models import Wafer, IVModelReadings, Fabrun, Die, IV
+from UofG_PP.models import Wafer, IVModelReadings, Fabrun, Die, IV
 from morion.mongomodel import query_merge
 from morion.config import get_config_info, setup_mongodb, change_database
 import morion.config as config

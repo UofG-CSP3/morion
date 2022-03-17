@@ -1,3 +1,7 @@
+"""
+This module contains the class MongoModel,
+that serves as the base model for all object types stored in the database.
+"""
 from __future__ import annotations
 from typing import Any
 

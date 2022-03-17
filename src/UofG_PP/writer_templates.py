@@ -12,12 +12,20 @@ def standard_experiment_write(
         experiment_delim='\t',
         header_delim: str = ','
 ):
+    """
+    This function will write new content to a newly created experiment file, it requires a header file
+    to specify how to lay out the new file.
+    :param model: The type of document
+    :param new_file: The new file to be produced
+    :param header_filepath: The filepath of the header file to be used to update the new file
+    :param defaults: This is used as a dictionary on how to interpret terms from the header file
+    :param experiment_delim: This is what will separate each important cell in the newly created file
+    :param header_delim: This is what separates cells in the header file
+    :return: It will return a newly created experiment file
+    """
     defaults.update(model.dict(by_alias=True))
     model_dict = defaults
     del model_dict['_id']
-
-
-
     with open(new_file, 'w', newline='') as experiment_file, open(header_filepath, 'r') as header_f:
         header_reader = csv.reader(header_f, delimiter=header_delim)
         experiment_writer = csv.writer(experiment_file, delimiter=experiment_delim)
@@ -38,8 +46,6 @@ def standard_experiment_write(
             experiment_writer.writerow(row)
 
 
-        #TODO specify number of digits for floating numbers
-
 def standard_component_write(
         model: MongoModel,
         new_file: str,
@@ -48,6 +54,18 @@ def standard_component_write(
         component_delim='\t',
         header_delim: str = ','
 ):
+    """
+    This function will write new content to a newly created die or wafer file, it requires a header file
+    to specify how to lay out the new file.
+    :param model: The type of document
+    :param new_file: The new file to be produced
+    :param header_filepath: The filepath of the header file to be used to update the new file
+    :param defaults: This is used as a dictionary on how to interpret terms from the header file
+    :param component_delim: This is what will separate each important cell in the newly created file
+    :param header_delim: This is what separates cells in the header file
+    :return: It will return a newly created experiment file
+    """
+
     if defaults is None:
         defaults = {}
 

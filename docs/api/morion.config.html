@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "DTD/xhtml1-strict.dtd">
+<html>
+  
+
+  <head>
+    
+    <title>morion.config</title>
+    <meta name="generator" content="pydoctor 22.2.2"> 
+        
+    </meta>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.75" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="apidocs.css" />
+    <link rel="stylesheet" type="text/css" href="extra.css" />
+</head>
+
+  <body>
+
+    
+
+    <nav class="navbar navbar-default">
+  
+  <div class="container">
+
+    <div class="navbar-header">
+      
+      <div class="navlinks">
+          <span class="navbar-brand">
+            morion <a href="index.html">API Documentation</a>
+          </span>
+
+          <a href="moduleIndex.html">
+            Modules
+          </a>
+
+          <a href="classIndex.html">
+            Classes
+          </a>
+
+          <a href="nameIndex.html">
+            Names
+          </a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+    
+
+    <div class="container">
+
+      <div class="page-header">
+        <h1 class="module"><code><code><a href="index.html" class="internal-link">morion</a></code><wbr></wbr>.<code><a href="morion.config.html" class="internal-link" title="morion.config">config</a></code></code></h1>
+        <div id="showPrivate">
+          <button class="btn btn-link" onclick="togglePrivate()">Toggle Private API</button>
+        </div>
+      </div>
+
+      <div class="categoryHeader">
+        module documentation
+      </div>
+
+      <div class="extrasDocstring">
+        
+        <p></p>
+      </div>
+
+      <div class="moduleDocstring">
+        <div>This module handles set-up of and connection to a MongoDB database.</div>
+      </div>
+
+      <div id="splitTables">
+        <table class="children sortable" id="id2">
+  
+  
+  <tr class="class">
+    
+    <td>Class</td>
+    <td><code><a href="morion.config.ConfigInfo.html" class="internal-link" title="morion.config.ConfigInfo">​Config​Info</a></code></td>
+    <td>This class represents the information needed to connect to the database, taken from the config.ini file</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#change_database" class="internal-link" title="morion.config.change_database">change​_database</a></code></td>
+    <td>Change which database in the MongoDB server to use.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#database" class="internal-link" title="morion.config.database">database</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#format_mongodb_credentials" class="internal-link" title="morion.config.format_mongodb_credentials">format​_mongodb​_credentials</a></code></td>
+    <td>Properly formats the credentials in the netloc of a MongoDB URI to use percent encoding.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#get_config_info" class="internal-link" title="morion.config.get_config_info">get​_config​_info</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#init_mongo" class="internal-link" title="morion.config.init_mongo">init​_mongo</a></code></td>
+    <td>Initialise the MongoDB connection.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#mongodb_database_name_from_config" class="internal-link" title="morion.config.mongodb_database_name_from_config">mongodb​_database​_name​_from​_config</a></code></td>
+    <td>Get the MongoDB database name to use from a ConfigParser.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#mongodb_uri_from_config" class="internal-link" title="morion.config.mongodb_uri_from_config">mongodb​_uri​_from​_config</a></code></td>
+    <td>Get the MongoDB URI from a ConfigParser.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#mongodb_uri_merge_params" class="internal-link" title="morion.config.mongodb_uri_merge_params">mongodb​_uri​_merge​_params</a></code></td>
+    <td>Merge the query parameters of a MongoDB URI with a dictionary of other query parameters,</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#setup_config_info" class="internal-link" title="morion.config.setup_config_info">setup​_config​_info</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#setup_mongodb" class="internal-link" title="morion.config.setup_mongodb">setup​_mongodb</a></code></td>
+    <td>Will set up and initialise a MongoDB connection given the connection string and database name.</td>
+  </tr><tr class="function">
+    
+    <td>Function</td>
+    <td><code><a href="#setup_mongodb_from_file" class="internal-link" title="morion.config.setup_mongodb_from_file">setup​_mongodb​_from​_file</a></code></td>
+    <td>Will set up and initialise a MongoDB connection using the given config file.</td>
+  </tr><tr class="variable private">
+    
+    <td>Variable</td>
+    <td><code><a href="#_client" class="internal-link" title="morion.config._client">​_client</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="variable private">
+    
+    <td>Variable</td>
+    <td><code><a href="#_config_info" class="internal-link" title="morion.config._config_info">​_config​_info</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr><tr class="variable private">
+    
+    <td>Variable</td>
+    <td><code><a href="#_database" class="internal-link" title="morion.config._database">​_database</a></code></td>
+    <td><span class="undocumented">Undocumented</span></td>
+  </tr>
+</table>
+        
+
+          
+      </div>
+
+      <div id="childList">
+
+        <div class="basefunction">
+  
+  
+  <a name="morion.config.change_database">
+    
+  </a>
+  <a name="change_database">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">change_database</span>(new_db_name):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div>Change which database in the MongoDB server to use.<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">new​_db​_name:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.database">
+    
+  </a>
+  <a name="database">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">database</span>():
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p class="undocumented">Undocumented</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>Database</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.format_mongodb_credentials">
+    
+  </a>
+  <a name="format_mongodb_credentials">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">format_mongodb_credentials</span>(netloc):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p>Properly formats the credentials in the netloc of a MongoDB URI to use percent encoding.</p>
+<p>:param netloc: The netloc field when reading a MongoDB URI using urllib.parse.urlparse :return: The netloc modified so that the credentials are correctly formatted.</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">netloc:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.get_config_info">
+    
+  </a>
+  <a name="get_config_info">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">get_config_info</span>():
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p class="undocumented">Undocumented</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code><a href="morion.config.ConfigInfo.html" class="internal-link" title="morion.config.ConfigInfo">ConfigInfo</a></code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.init_mongo">
+    
+  </a>
+  <a name="init_mongo">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">init_mongo</span>():
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p>Initialise the MongoDB connection.</p>
+<p>Note: You MUST call setup_config_info before calling this function.</p>
+</div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.mongodb_database_name_from_config">
+    
+  </a>
+  <a name="mongodb_database_name_from_config">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">mongodb_database_name_from_config</span>(config):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p>Get the MongoDB database name to use from a ConfigParser.</p>
+<p>Note that if no name could be found, this will instead return `'database'`.</p>
+<p>:param config: The ConfigParser to get the database name from. :return: The database name extracted from config.</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config:</span><code>ConfigParser</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.mongodb_uri_from_config">
+    
+  </a>
+  <a name="mongodb_uri_from_config">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">mongodb_uri_from_config</span>(config):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p>Get the MongoDB URI from a ConfigParser.</p>
+<p>Note that if no valid URI could be found, this will instead return `'localhost'`.</p>
+<p>:param config: The ConfigParser to get the MongoDB URI from. :return: The MongoDB URI extracted and correctly formatted from the ConfigParser.</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config:</span><code>ConfigParser</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.mongodb_uri_merge_params">
+    
+  </a>
+  <a name="mongodb_uri_merge_params">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">mongodb_uri_merge_params</span>(query, other_params):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p>Merge the query parameters of a MongoDB URI with a dictionary of other query parameters,</p>
+<p>:param query: The query field when reading a MongoDB URI using urllib.parser.urlparse. :param other_params: A dictionary to merge with the MongoDB URI query. :return: A formatted query consisting of the two query parameters merged.</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">query:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">other​_params:</span><code>dict</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr class="fieldStart"><td class="fieldName" colspan="2">Returns</td></tr><tr><td class="fieldArgContainer"><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.setup_config_info">
+    
+  </a>
+  <a name="setup_config_info">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setup_config_info</span>(config_info):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p class="undocumented">Undocumented</p><table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config​_info:</span><code><a href="morion.config.ConfigInfo.html" class="internal-link" title="morion.config.ConfigInfo">ConfigInfo</a></code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.setup_mongodb">
+    
+  </a>
+  <a name="setup_mongodb">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setup_mongodb</span>(connection=None, db_name=<span class="rst-variable-quote">'</span><span class="rst-variable-string">database</span><span class="rst-variable-quote">'</span>, connnection_timeout_ms=5000):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p>Will set up and initialise a MongoDB connection given the connection string and database name.</p>
+<p>:param connection: The connection string :param db_name: The name of the database</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">connection:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">db​_name:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">connnection​_timeout​_ms:</span><code>int</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basefunction">
+  
+  
+  <a name="morion.config.setup_mongodb_from_file">
+    
+  </a>
+  <a name="setup_mongodb_from_file">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-keyword">def</span> <span class="py-defname">setup_mongodb_from_file</span>(config_file):
+    
+  </div>
+  <div class="docstring functionBody">
+    
+    
+    <div><p>Will set up and initialise a MongoDB connection using the given config file.</p>
+<p>:param config_file: The config file containing the necessary information to set up a MongoDB connection.</p>
+<table class="fieldTable"><tr class="fieldStart"><td class="fieldName" colspan="2">Parameters</td></tr><tr><td class="fieldArgContainer"><span class="fieldArg">config​_file:</span><code>str</code></td><td class="fieldArgDesc"><span class="undocumented">Undocumented</span></td></tr></table></div>
+  </div>
+</div><div class="basevariable private">
+  
+  
+  <a name="morion.config._client">
+    
+  </a>
+  <a name="_client">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">_client</span>: <code>Optional[<wbr></wbr>MongoClient]</code> =
+    
+  </div>
+  <div class="functionBody">
+    
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="basevariable private">
+  
+  
+  <a name="morion.config._config_info">
+    
+  </a>
+  <a name="_config_info">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">_config_info</span>: <code>Optional[<wbr></wbr><a href="morion.config.ConfigInfo.html" class="internal-link" title="morion.config.ConfigInfo">ConfigInfo</a>]</code> =
+    
+  </div>
+  <div class="functionBody">
+    
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div><div class="basevariable private">
+  
+  
+  <a name="morion.config._database">
+    
+  </a>
+  <a name="_database">
+    
+  </a>
+  <div class="functionHeader">
+    
+    <span class="py-defname">_database</span>: <code>Optional[<wbr></wbr>Database]</code> =
+    
+  </div>
+  <div class="functionBody">
+    
+    
+    <div><p class="undocumented">Undocumented</p></div>
+    
+  </div>
+</div>
+
+      </div>
+    </div>
+
+    <footer class="navbar navbar-default">
+  
+  <div class="container">
+    <a href="index.html">API Documentation</a> for morion,
+  generated by <a href="https://github.com/twisted/pydoctor/">pydoctor</a>
+    22.2.2 at 2022-03-16 17:20:05.
+  </div>
+</footer>
+
+    <script src="pydoctor.js" type="text/javascript"></script>
+
+  </body>
+</html>

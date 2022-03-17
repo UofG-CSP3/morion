@@ -1,7 +1,10 @@
-
+"""
+This module handles the interaction with file writers.
+"""
 from dataclasses import dataclass
 from typing import Callable, Type
 
+from .errors import WriteError, FunctionErrorPair, WriteListError
 from .mongomodel import MongoModel
 
 
@@ -39,23 +42,41 @@ def register_writer(model: Type[MongoModel], use_when: Callable[[str], bool], pr
 
 
 def filter_writers(filepath: str, model: MongoModel):
+    """
+    This method selects the appropriate writers to use for writing a model to a file
+    :param filepath: Path to file into which will be written
+    :param model: The model that will be written into the file
+    :return: The appropriate writers to use
+    """
     return sorted([r for r in writers if r.use_when(filepath) and isinstance(model, r.model)],
                   key=lambda r: r.priority, reverse=True)
 
 
 def write_file(filepath: str, model: MongoModel, writer: Callable[[str, MongoModel], bool] = None) -> bool:
+    """
+    This method writes a model into a file
+    :param filepath: Path to file into which will be written
+    :param model: The model that will be written into the file
+    :param writer: The writer to use, if None, will select an appropriate writer
+    :return: True, if the writing process was successful, False if not
+    """
     if writer is not None:
         return writer(filepath, model)
 
+    if len(writers) == 0:
+        raise WriteError("No readers have been registered. Make sure that your readers have been imported.")
+
     filtered_writers = [fr.writer for fr in filter_writers(filepath, model)]
 
+    if len(filtered_writers) == 0:
+        raise WriteError("None of the registered writers say they can create a file for this model.")
+
+    writer_errors: list[FunctionErrorPair] = []
 
     for writer in filtered_writers:
         try:
             return writer(filepath, model)
-        # TODO: The below except is FAR too broad.
         except Exception as err:
-            # TODO: Maybe change this to log something instead of just silently ignoring it?
-            pass
+            writer_errors.append(FunctionErrorPair(writer, err))
 
-    raise ValueError("No writer could write this file.")
+    raise WriteListError(writer_errors)

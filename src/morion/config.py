@@ -1,3 +1,7 @@
+"""
+This module handles set-up of and connection to a MongoDB database.
+"""
+
 from configparser import ConfigParser
 from dataclasses import dataclass
 from typing import Optional
@@ -10,6 +14,9 @@ from pymongo.database import Database
 
 @dataclass
 class ConfigInfo:
+    """
+    This class represents the information needed to connect to the database, taken from the config.ini file
+    """
     mongodb_uri: str
     database_name: str
 
