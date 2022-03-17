@@ -3,24 +3,18 @@
 
 
 <br />
-<div align="center">
 
-<h3 align="center">IV Experiment Graphing</h3>
+## Morion
+Morion is a python framework for easily interacting with documents in a MongoDB database.
 
-  <p align="center">
-    This is a project that allows experimenters to upload their results of Current-Voltage-Experiments into a database, read from that database and display the data in visual format inside a WebApp. 
-    <br />
-    <a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main/-/wikis/home"><strong>Read the Wiki for more information»</strong></a>
-    <br />
-    <br />
-    <a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-dissertation">View Dissertation</a>
-    ·
-    <a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main">Report Bug</a>
-    ·
-    <a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main">Request Feature</a>
-  </p>
-</div>
 
+<a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main/-/wikis/home"><strong>Read the Wiki for more information»</strong></a>
+
+<a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-dissertation">View Dissertation</a>
+
+<a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main">Report Bug</a>
+
+<a href="https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main">Request Feature</a>
 
 
 <!-- TABLE OF CONTENTS -->
@@ -53,11 +47,11 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is a project that allows experimenters to upload their results of Current-Voltage-Experiments into a database, read from that database and display the data in visual format inside a WebApp. 
+This is a project that allows researchers to robustly upload documents into a MongoDB database. To download documents back out,
+and to analyse their findings, all from within a python environment.
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
-
-
 
 ### Built With
 
@@ -71,19 +65,31 @@ This is a project that allows experimenters to upload their results of Current-V
 
 <!-- GETTING STARTED -->
 ## Getting Started
-The project has files src and examples. The latter of these are just examples of how to perfrom some of the 
-functionality of the project.
+You can find the main files of the project in `src/`, and detailed examples on how to use the project in `examples/`.
 
-The former however includes all the code of the API's uploading, dowloading, and other features. 
+`src` can be broken down into the following sections:
 
-src can be broken down into three sections:
+1. `morion/` - The core package for uploading, downloading, and interacting with the database.
+2. `UofG_PP/` - A project that uses `morion` to create models, with examples on how to create readers and writers
+that show how `morion` provides functionality for robust interaction with the database.
 
-1. Headers
-2. The ivdatahandeler 
 ### Prerequisites
 
+You will need a MongoDB database with read/write access.
+You can either install one on your local machine or on a server you have access to.
+For more information, check out: https://docs.mongodb.com/manual/installation/
+
+<p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Installation
+
+1. Clone the repository into your system, then run "pip install ." on the top level directory, where setup.py is located.
+2. In the python commandline, run 
+  from morion import setup
+  setup()
+3. You will be asked for a connection to a mongoDB.
+4. Done!
+
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -95,13 +101,6 @@ src can be broken down into three sections:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [Graphical representation of IV data] 
-- [Database to hold data] 
 
 
 See the [open issues](https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main/-/issues) for a full list of proposed features (and known issues).
