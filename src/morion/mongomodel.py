@@ -29,6 +29,7 @@ def query_merge(query: dict, **kwargs: dict) -> dict:
 
 class BaseModel(PydanticBaseModel):
     """Base model allows for the use of field name when constructing."""
+
     class Config:
         allow_population_by_field_name = True
         validate_assignment = True
@@ -55,29 +56,31 @@ class MongoModel(BaseModel):
         return database().get_collection(collection_name)
 
     @classmethod
-    def find_one(cls, query: dict = None, **kwargs):
+    def find_one(cls, query: dict = None, with_validation: bool = True, **kwargs):
         """
         Get a single instance of this model from the MongoDB database that matches a given query.
 
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
+        :param with_validation: If True, will check whether the data matches the pydantic model.
         :return: A single instance of this model that matches the query. If there are no matches, then returns None.
         """
         model_dict = cls.collection().find_one(query_merge(query, **kwargs))
         if model_dict is not None:
-            return cls.no_validate_construct(model_dict)
+            return cls.get_instance(model_dict, with_validation)
 
     @classmethod
-    def find(cls, query: dict = None, **kwargs):
+    def find(cls, query: dict = None, with_validation: bool = True, **kwargs):
         """
         Get all instances of this model from the MongoDB database that match a given query.
 
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
+        :param with_validation: If True, will check whether the data matches the pydantic model.
         :return: A tuple containing all the instances of this model that match the query.
         """
         model_dicts = cls.collection().find(query_merge(query, **kwargs))
-        return tuple(cls.no_validate_construct(d) for d in model_dicts)
+        return tuple(cls.get_instance(d, with_validation) for d in model_dicts)
 
     @classmethod
     def delete_one(cls, query: dict = None, **kwargs):
@@ -100,16 +103,17 @@ class MongoModel(BaseModel):
         return cls.collection().delete_many(query_merge(query, **kwargs)).acknowledged
 
     @classmethod
-    def find_one_and_delete(cls, query: dict = None, **kwargs):
+    def find_one_and_delete(cls, query: dict = None, with_validation: bool = True, **kwargs):
         """
         Find and delete one instance of this model in the MongoDB Database.
 
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
+        :param with_validation: If True, will check whether the data matches the pydantic model.
         """
         result = cls.collection().find_one_and_delete(query_merge(query, **kwargs))
         if result is not None:
-            return cls.no_validate_construct(result)
+            return cls.get_instance(result, with_validation)
 
     def insert(self):
         """Insert into the database."""
@@ -130,29 +134,32 @@ class MongoModel(BaseModel):
         else:
             return self.insert()
 
-    def find_and_replace(self, query: dict = None, **kwargs):
+    def find_and_replace(self, query: dict = None, with_validation: bool = True, **kwargs):
         """
         Replace an instance in the database with this object. Return the replaced instance,
 
         :param query: The MongoDB query.
         :param kwargs: Python key-word arguments to combine with the MongoDB query.
+        :param with_validation: If True, will check whether the data matches the pydantic model.
         :return: The model object that was replaced.
         """
         self.id = None
         replaced = self.collection().find_one_and_replace(query_merge(query, **kwargs), to_mongo_dict(self))
         if replaced:
-            return type(self).no_validate_construct(replaced)
+            return type(self).get_instance(replaced, with_validation)
 
     def delete(self):
         """Delete this object from the database."""
         self.delete_one(_id=self.id)
 
     @classmethod
-    def no_validate_construct(cls, d: dict) -> MongoModel:
-        """ Construct a model from a dictionary without validation. """
-        d['id'] = d.pop('_id')
-        return cls.construct(**d)
-
+    def get_instance(cls, d: dict, with_validation: bool) -> MongoModel:
+        """ Construct a model from a dictionary with or  without validation. """
+        if with_validation:
+            return cls(**d)
+        else:
+            d['id'] = d.pop('_id')
+            return cls.construct(**d)
 
 
 def to_mongo_dict(model: MongoModel) -> dict:
