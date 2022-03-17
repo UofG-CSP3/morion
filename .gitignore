@@ -157,3 +157,7 @@ cython_debug/
 
 # For local testing.
 local_testing/
+
+# Demonstrations
+
+examples/user-guide-documentation.ipynb
