@@ -20,7 +20,7 @@ download_one(Wafer, name='iLGAD_3374-15')
 # the wafer, the die name, and the anode type of the downloaded die.
 download_one(Die, "{wafer}_{name}_{anode_type}.txt", device_type='iLGAD')
 
-# In the above line, the fields in the format string need to match the fields for Die (defined in CSP3_project/models.py)
+# In the above line, the fields in the format string need to match the fields for Die (defined in UofG_PP/models.py)
 
 
 # 2. Downloading multiple documents
