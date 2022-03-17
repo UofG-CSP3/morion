@@ -6,6 +6,7 @@ from pymongo import MongoClient
 from urllib.parse import urlencode, urlparse, parse_qs, quote_plus
 
 from pymongo.database import Database
+from pymongo.uri_parser import parse_uri, InvalidURI
 
 
 @dataclass
@@ -142,9 +143,11 @@ def setup():
     uri = input("Please enter your connection string: ")
     while True:
         try:
-            urlparse(uri)
+            if '://' not in uri:
+                uri = 'mongodb://' + uri
+            parse_uri(uri)
             break
-        except:
+        except InvalidURI:
             uri  = input("Invalid connection string. Please try again: ")
     
     serverselectiontimeoutms = input("Please specify the connection timeout value in milliseconds: ")
@@ -159,7 +162,7 @@ def setup():
 
     setup_mongodb(connection=uri, db_name=database_name, connnection_timeout_ms=serverselectiontimeoutms)
 
-    ans = input("The connection has been set up. Would you like to save this configuration in a config.ini file? [y/n]")
+    ans = input("The connection has been set up. Would you like to save this configuration in a config.ini file? [y/n] ")
 
     if ans.strip().lower()[0] == 'y':
         with open('config.ini', 'w') as cfg:
