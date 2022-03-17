@@ -12,7 +12,8 @@ setuptools.setup(
     packages=setuptools.find_packages(where="src"),
     install_requires=[
         'pydantic>=1.9',
-        'pymongo>=4'
+        'pymongo>=4',
+        'pandas>=1.4'
     ],
     python_requires=">=3.7",
 )

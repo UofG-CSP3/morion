@@ -2,6 +2,7 @@ from datetime import datetime
 from typing import Optional
 
 from pydantic import Field, root_validator
+from pandas import DataFrame
 
 from morion.mongomodel import MongoModel, BaseModel
 from morion.model_decorators import (
@@ -9,6 +10,16 @@ from morion.model_decorators import (
     forward_link_one,
     link_many
 )
+
+
+class ExperimentModel(MongoModel):
+    """ Specifically for models which have experiment readings, e.g. IV """
+
+    readings: list[BaseModel]  # Override BaseModel with the specific readings you are storing.
+
+    def to_pandas_frame(self) -> DataFrame:
+        """Convert readings into a pandas frame"""
+        return DataFrame(reading.dict() for reading in self.readings)
 
 
 class IVModelReadings(BaseModel):
@@ -20,7 +31,7 @@ class IVModelReadings(BaseModel):
     humidity: float = Field(alias='RH/%')
 
 
-class IV(MongoModel):
+class IV(ExperimentModel):
     wafer: str
     die: str
     comment: str
