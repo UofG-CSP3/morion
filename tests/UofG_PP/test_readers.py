@@ -1,5 +1,5 @@
 import unittest
-
+from pathlib import Path
 import pydantic
 from UofG_PP.readers import *
 
@@ -7,6 +7,10 @@ from . import create_test_files
 
 
 class TestReader(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        (Path(__file__).parent/"test_files").mkdir(exist_ok=True)
 
     def test_is_iv_file(self):
         iv_filepath = Path(__file__).parent / 'test_files' / 'IV_wafer_iLGAD_3374-15_die_0_0.txt'
