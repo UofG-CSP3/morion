@@ -79,6 +79,36 @@ You will need a MongoDB database with read/write access.
 You can either install one on your local machine or on a server you have access to.
 For more information, check out: https://docs.mongodb.com/manual/installation/
 
+##### MongoDB installation on a CentOS 8 server
+
+Follow the instructions [here](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-red-hat/) to install and boot up a MongoDB database on a CentOS 8 machine. Once the `mongod` service has been started, you can access `mongo` shell by using `mongo` command. 
+
+Then, it is recommended that you create a superuser:
+1. Open up `mongo` shell.
+2. Run `use admin` to switch to the admin database.
+3. Create a new superuser by pasting in the following (change username and password as you like - you will use them later for accessing this database)
+```
+db.createUser(
+  {
+    "user" : "<your_username>",
+    "pwd" : "<your_password>",
+    "roles" : [
+          {
+            "role" : "userAdminAnyDatabase",
+            "db" : "admin"
+          }
+    ]
+  }
+)
+```
+
+Finally, there is one more step before you can start using the database. In order to be able to connect from the outside world, `bindIp` option must be changed in `/etc/mongod.conf`. You can edit `/etc/mongod.conf` using a pre-installed editor like Vi. Run `sudo vi /etc/mongod.conf` and set the `bindIp` option to `0.0.0.0` to allow access from anywhere. It is generally unsafe to allow access from any ip address, so as soon as you know which machines you need access from, add their ip adresses along with `127.0.0.1` and remove `0.0.0.0` from the list. After `/etc/mongod.conf` has been saved, restart the `mongod` service by running `sudo systemctl restart mongod`.
+
+Once the database is set up, you can connect to it via a *connection string*, which has the following format:
+
+`mongodb://<your_username>:<your_password>@<server_ip_address>`
+
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ### Installation
