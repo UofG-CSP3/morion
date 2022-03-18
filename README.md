@@ -131,7 +131,7 @@ Once the database is set up, you can connect to it via a *connection string*, wh
 <!-- USAGE EXAMPLES -->
 ## User Guide
 
-### Creating a model:
+### Creating a model
 ```python
 from morion import MongoModel
 from datetime import datetime
@@ -142,6 +142,27 @@ class Book(MongoModel):
   publisher: str
   year: datetime
 ```
+
+### Registering a reader
+```python
+```
+
+### Registering a writer
+```python
+```
+
+### Uploading to the database
+```python
+```
+
+### Downloading from the database
+```python
+```
+
+### Interacting with models
+```python
+```
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
