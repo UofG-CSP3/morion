@@ -1,3 +1,6 @@
+"""
+This module defines templates for readers of the same type
+"""
 import csv
 
 
@@ -39,6 +42,14 @@ def standard_component(
         header_delim: str = ',',
         component_delim: str = '\t'
 ):
+    """
+    Template for a component reader. Uses header file to know what kind of structure the file that is being read has.
+    :param header_filepath: Path to the header file
+    :param component_filepath: Path to the file containing information about the component (what is to be uploaded into the database).
+    :param header_delim: Delimiter used in the header file, e.g. ,
+    :param component_delim: Delimiter used in the component file that is to be uploaded, e.g. -
+    :return: A dictionary representing the fields and values of the component
+    """
     component_dict = {}
     with open(header_filepath) as header_f, open(component_filepath) as experiment_f:
         header_reader = csv.reader(header_f, delimiter=header_delim)

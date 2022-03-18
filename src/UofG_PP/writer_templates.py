@@ -1,8 +1,10 @@
+"""
+This module defines templates for writers of the same type
+"""
 import csv
 
 from morion.mongomodel import MongoModel
 
-#TODO for optional fields, where do we put them in the new file. Need to ask Dima...
 
 def standard_experiment_write(
         model: MongoModel,
