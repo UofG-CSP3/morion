@@ -113,10 +113,12 @@ Once the database is set up, you can connect to it via a *connection string*, wh
 
 ### Installation
 
-1. Clone the repository into your system, then run "pip install ." on the top level directory, where setup.py is located.
+1. Clone the repository into your system, then run `pip install .` on the top level directory, where setup.py is located.
 2. In the python commandline, run 
+```python
   from morion import setup
   setup()
+```
 3. You will be asked for a connection to a mongoDB.
 4. Done! You are now connected to the database and can run morion methods from your python shell.
 
@@ -128,6 +130,18 @@ Once the database is set up, you can connect to it via a *connection string*, wh
 
 <!-- USAGE EXAMPLES -->
 ## User Guide
+
+### Creating a model:
+```python
+from morion import MongoModel
+from datetime import datetime
+
+class Book(MongoModel):
+  author: str
+  title: str
+  publisher: str
+  year: datetime
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
