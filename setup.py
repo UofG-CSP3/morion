@@ -10,7 +10,8 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     package_dir={"": "src"},
     packages=setuptools.find_packages(where="src"),
-    package_data={'morion': ['config.ini']},
+    package_data={'UofG_PP': ['headers/*'],
+                  'morion': ['config.ini']},
     include_package_data=True,
     install_requires=[
         'pydantic>=1.9',
