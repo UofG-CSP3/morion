@@ -2,11 +2,11 @@ from datetime import datetime
 
 from UofG_PP.models import IV, Wafer, Die, IVModelReadings
 
-# 1. First up# Uncomment the following two lines if you need to clean up the database before running this script.
-# # clear_database()
-# # upload_all()load a test file (see demonstrate_uploading.py) to test, in this case just upload one file
+# First up# Uncomment the following two lines if you need to clean up the database before running this script.
+# clear_database()
+# upload_all()
 
-# 2. insert()
+# 1. insert()
 
 # Insert a new model instance into the database
 
@@ -16,7 +16,7 @@ iv = IV(wafer='aaa', die='abb', comment='HEY', institution='BEY', author='BAE',
 
 iv.insert()
 
-# 3. Update
+# 2. Update
 
 # After getting a model instance from the database and changing it locally, update the changes so they
 # are reflected in the database
@@ -25,7 +25,22 @@ tariq_iv = IV.find_one(author="Danial Tariq")
 tariq_iv.author = "Not Danial Tariq"
 tariq_iv.update()
 
-#4 insert_or_update
+# Example
+# If we wanted to rename a wafer from iLGAD_3374-16 to 3374-16
+
+# First, change the wafer
+wafer = Wafer.find_one(name='iLGAD_3374-16')
+wafer.name = '3374-16'
+
+# Now change the dies
+dies = Die.find(wafer='iLGAD_3374-16')
+for die in dies:
+    die.wafer = '3374-16'
+    die.update()
+
+
+
+# 3. insert_or_update
 
 # When called on an instance of a model updates it inside the database,
 # however if it is a new model instance, it will insert i
