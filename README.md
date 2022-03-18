@@ -50,6 +50,16 @@ Morion is a python framework for easily interacting with documents in a MongoDB 
 This is a project that allows researchers to robustly upload documents into a MongoDB database. To download documents back out,
 and to analyse their findings, all from within a python environment.
 
+### Features
+- Create own models representing experiments, devices or anything else or use the included models designed for the University of Glasgow Physics Department. 
+- Using morion models, upload text documents into a mongoDB database by creating your own reader or using the included readers designed for the University of Glasgow Physics Department. 
+- Get text documents from a mongoDB database containing morion models by creating your own writer or using the included writers designed for the University of Glasgow Physics Department. 
+- Retrieve morion models from a mongoDB easily and use these for anything you want, for example graphing or comparison. 
+- The included models designed for the University of Glasgow Physics Department are made for the use with IV-experiments. There are models for: 
+  - Fabrun - Wafer - Die - IV (Experiment) 
+- The included readers and writers enable reading from and writing to text files that represent 
+  - Wafer - Die - IV (Experiment)
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
