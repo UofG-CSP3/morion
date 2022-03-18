@@ -34,7 +34,7 @@ Morion is a python framework for easily interacting with documents in a MongoDB 
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li><a href="#user-guide">User Guide</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -88,7 +88,7 @@ For more information, check out: https://docs.mongodb.com/manual/installation/
   from morion import setup
   setup()
 3. You will be asked for a connection to a mongoDB.
-4. Done!
+4. Done! You are now connected to the database and can run morion methods from your python shell.
 
 
 
@@ -97,13 +97,13 @@ For more information, check out: https://docs.mongodb.com/manual/installation/
 
 
 <!-- USAGE EXAMPLES -->
-## Usage
+## User Guide
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
-See the [open issues](https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main/-/issues) for a full list of proposed features (and known issues).
+Check out the docs for further explanations on individual methods.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -140,6 +140,10 @@ Project Link: [https://stgit.dcs.gla.ac.uk/team-project-h/2021/csp3/csp3-main](h
 
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
+
+Douglas Russel, for being our coach, helping us improve our software process with useful advice 
+
+Dima Maneuski, for being a great customer
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
