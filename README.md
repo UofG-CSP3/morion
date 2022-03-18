@@ -124,14 +124,14 @@ Once the database is set up, you can connect to it via a *connection string*, wh
 ### Installation
 
 1. Clone the repository into your system, then run `pip install .` on the top level directory, where setup.py is located.
-2. In the python commandline, run 
+2. Create a working directory for your project, you can create this anywhere on your machine.
+3. In the python commandline in your project working directory, run 
 ```python
   from morion import setup
   setup()
 ```
-3. You will be asked for a connection to a mongoDB.
-4. Done! You are now connected to the database and can run morion methods from your python shell.
-
+4. You will be asked for a connection to a mongoDB.
+5. You can choose to create a `config.ini` file which morion will use from now on to automatically connect to your database.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -143,6 +143,9 @@ Once the database is set up, you can connect to it via a *connection string*, wh
 
 This is to serve as a quick start guide into using morion. Be sure to check out the `examples/` folder for more in depth examples
 as well as `src/UofG_PP/`for a complete project that uses morion.
+The `UofG_PP` package was created specifically for the University of Glasgow, but it is a
+useful starting point for you to build your project using morion. It is recommended that you base
+your project from `UofG_PP`.
 
 ### Creating a model
 
