@@ -131,20 +131,66 @@ Once the database is set up, you can connect to it via a *connection string*, wh
 <!-- USAGE EXAMPLES -->
 ## User Guide
 
+This is to serve as a quick start guide into using morion. Be sure to check out the `examples/` folder for more in depth examples
+as well as `src/UofG_PP/`for a complete project that uses morion.
+
 ### Creating a model
+
+Here is a basic model for holding infromation about a wafer.
+
 ```python
 from morion import MongoModel
 from datetime import datetime
 
-class Book(MongoModel):
-  author: str
-  title: str
-  publisher: str
-  year: datetime
+class Wafer(MongoModel):
+  name: str
+  production_date: datetime
+  oxide_thickness: float
+  arbitrary_property_x: int
+  arbitrary_property_y: int
 ```
 
+`MongoModel` is a pydantic model, read the pydantic [docs](https://pydantic-docs.helpmanual.io/usage/models/) for more information about model.
+
 ### Registering a reader
+Suppose we have a wafer file `wafer.txt` structured like so:
+```
+Wafer
+3374-15
+2022-03-18 15:06:57.588051
+
+oxide_thickness  0.13
+arbitrary_property_x  12
+arbitrary_property_y  10
+```
+
+You can create and reader to read the file:
+
 ```python
+from morion.filereader import register_reader
+
+def is_wafer_file(filepath: str):
+  """Check whether a given file is a Wafer"""
+  with open(filepath) as f:
+    return f.readline().strip() == 'Wafer'
+
+@register_reader(use_when=is_wafer_file)
+def wafer_reader(filepath: str) -> Wafer:
+  d = {}
+  with open(filepath) as f:
+    next(f) # Ignore first line, as it's just 'Wafer'
+    d['name'] = next(f)
+    d['production_date'] = next(f)
+
+    for line in f:
+      line = line.strip()
+      if line == '': # Ignore empty lines
+        continue
+      key, value = line.split('  ')
+      d[key] = value
+    
+    # Construct our Wafer
+    return Wafer(**d)
 ```
 
 ### Registering a writer
@@ -152,7 +198,12 @@ class Book(MongoModel):
 ```
 
 ### Uploading to the database
+Once we've registered our reader, we can directly upload a file to the database
 ```python
+from morion import upload_file
+# Make sure you've also imported your wafer reader.
+
+upload_file('wafer.txt') # morion will take care of the rest.
 ```
 
 ### Downloading from the database
