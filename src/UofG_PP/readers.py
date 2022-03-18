@@ -23,13 +23,15 @@ def is_iv_file(filepath: str):
 
 @register_reader(use_when=is_iv_file)
 def iv_reader(filepath: str) -> IV:
-    d = standard_experiment(header_filepath=get_header('IV_header.csv'), experiment_filepath=filepath)
-    # Don't need the measurement type
-    d.pop('measurementType')  # TODO: Maybe add this functionality to the header file?
-    # Convert timestamp str to datetime
-    d['date'] = datetime.fromisoformat(d.pop('date'))
-
-    return IV(**d)
+    try:
+        d = standard_experiment(header_filepath=get_header('IV_header.csv'), experiment_filepath=filepath)
+        # Don't need the measurement type
+        d.pop('measurementType')  # TODO: Maybe add this functionality to the header file?
+        # Convert timestamp str to datetime
+        d['date'] = datetime.fromisoformat(d.pop('date'))
+        return IV(**d)
+    except:
+        return False
 
 
 def is_wafer(filepath: str):
@@ -42,11 +44,14 @@ def is_wafer(filepath: str):
 
 @register_reader(use_when=is_wafer)
 def wafer_reader(filepath: str) -> Wafer:
-    d = standard_component(header_filepath=get_header('Wafer_header.csv'), component_filepath=filepath)
-    d.pop('Component')
-    d['production_date'] = datetime.fromisoformat(d['production_date'])
+    try:
+        d = standard_component(header_filepath=get_header('Wafer_header.csv'), component_filepath=filepath)
+        d.pop('Component')
+        d['production_date'] = datetime.fromisoformat(d['production_date'])
 
-    return Wafer(**d)
+        return Wafer(**d)
+    except:
+        return False
 
 
 def is_die(filepath: str):
@@ -59,7 +64,10 @@ def is_die(filepath: str):
 
 @register_reader(use_when=is_die)
 def die_reader(filepath: str) -> Die:
-    d = standard_component(header_filepath=get_header('Die_header.csv'), component_filepath=filepath)
-    d.pop('Component')
+    try:
+        d = standard_component(header_filepath=get_header('Die_header.csv'), component_filepath=filepath)
+        d.pop('Component')
 
-    return Die(**d)
+        return Die(**d)
+    except:
+        return False
