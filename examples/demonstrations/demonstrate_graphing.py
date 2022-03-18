@@ -1,4 +1,4 @@
-from CSP3_project.models import IV, Wafer, Die
+from UofG_PP.models import IV, Wafer, Die
 from demonstration_Feb import upload_all
 from matplotlib import pyplot as plt
 
@@ -18,7 +18,7 @@ dataframes = []
 for iv in ivs:
     dataframes.append(iv.to_pandas_frame())
 for dataframe in dataframes:
-    dataframe.plot(x="voltage", y="current")
+    dataframe.plot(x="voltage", y="currentAverage")
 plt.show()
 
 # 2. Plotting all IV experiments from the same die onto the same graph
@@ -33,7 +33,7 @@ dataframes = []
 for iv in ivs:
     dataframes.append(iv.to_pandas_frame())
 for dataframe in dataframes:
-    dataframe.plot(x="voltage", y="current")
+    dataframe.plot(x="voltage", y="currentAverage")
 plt.show()
 
 # 3. Plotting an IV experiment with an entire knowledge about the die
@@ -45,7 +45,7 @@ die = Die.find_one(die=die_name)
 iv = IV.find_one(die=die_name)
 #Plotting the IV experiment:
 dataframe = iv.to_pandas_frame()
-dataframe.plot(x="voltage", y="current")
+dataframe.plot(x="voltage", y="currentAverage")
 plt.show()
 #Print die information:
 print(die)

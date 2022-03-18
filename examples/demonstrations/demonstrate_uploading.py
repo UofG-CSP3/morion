@@ -1,5 +1,6 @@
 from morion import upload_file, upload_bulk, upload_directory
 from demonstration_Feb import clear_database
+from UofG_PP import readers
 
 
 clear_database()
