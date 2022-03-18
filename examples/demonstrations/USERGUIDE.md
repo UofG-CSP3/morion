@@ -25,9 +25,3 @@ In the case of how we have developed our schema, there are four layers for our d
 4. IV
 
 Each layer has access to its own information and information from the layer above or below itself.
-
-##### Plotting IVs
-To see examples of how one can plot different IV experiments, look at the demonstrate_graphing.py file.
-This file demonstrates three different plotting scenarios:
-
-1. 
