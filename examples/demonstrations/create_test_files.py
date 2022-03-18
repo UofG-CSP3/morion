@@ -28,14 +28,25 @@ def create_iv_file(wafer, die):
             time += random.randint(1,10)
 
 
-def create_die_file(wafer, name):
+def create_die_file(wafer, name, filepath):
     anode_type = random.choice(['pad', 'pixels', 'strips', 'other'])
     device_type = wafer.split('_')[0]
 
-    with open(f'dies/Die_{wafer}_{name}.txt', 'w', newline='') as f:
+    with open(filepath, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='\t')
         writer.writerow(['Die', wafer, name])
         writer.writerow([anode_type, device_type, random.randint(0, 5)])
+        writer.writerow([])
+        writer.writerow(['pitch', "%.2f" % random.random()])
+        writer.writerow(['n_channels', random.randint(0, 5)])
+
+def create_corrupt_die_file(wafer, name, filepath):
+    device_type = wafer.split('_')[0]
+
+    with open(filepath, 'w', newline='') as f:
+        writer = csv.writer(f, delimiter='\t')
+        writer.writerow(['Die', wafer, name])
+        writer.writerow([device_type, random.randint(0, 5)])
         writer.writerow([])
         writer.writerow(['pitch', "%.2f" % random.random()])
         writer.writerow(['n_channels', random.randint(0, 5)])
@@ -59,16 +70,31 @@ def create_die_and_iv_files():
     handle_wafer: str
     sheet_resistance: float
 '''
-def create_wafer_file(wafer):
+def create_wafer_file(wafer, filepath):
     material_types = ['Material 1', 'Meterial 2', 'Material 3']
     mask_designs = ['Design 1', 'Design 2', 'Design 3']
     production_date = datetime.datetime.now()
     production_run_data = 'www.example.com'
 
-    with open(f'wafers/Wafer_{wafer}.txt', 'w', newline='') as f:
+    with open(filepath, 'w', newline='') as f:
         writer = csv.writer(f, delimiter='\t')
         writer.writerow(['Wafer', wafer])
         writer.writerow([random.choice(material_types), random.choice(mask_designs), production_date])
+        writer.writerow([production_run_data])
+        writer.writerow([])
+        writer.writerow(['handle_wafer', 'Handle'])
+        for i in ['oxide_thickness', 'mean_depletion_voltage', 'depletion_voltage_stdev', 'thickness', 'sheet_resistance']:
+            writer.writerow([i, "%.2f" % random.random()])
+
+def create_corrupt_wafer_file(wafer, filepath):
+    material_types = ['Material 1', 'Meterial 2', 'Material 3']
+    mask_designs = ['Design 1', 'Design 2', 'Design 3']
+    production_run_data = 'www.example.com'
+
+    with open(filepath, 'w', newline='') as f:
+        writer = csv.writer(f, delimiter='\t')
+        writer.writerow(['Wafer', wafer])
+        writer.writerow([random.choice(material_types), random.choice(mask_designs)])
         writer.writerow([production_run_data])
         writer.writerow([])
         writer.writerow(['handle_wafer', 'Handle'])
