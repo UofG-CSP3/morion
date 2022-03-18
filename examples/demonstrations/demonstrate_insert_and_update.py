@@ -1,6 +1,5 @@
 from morion import download_one, download_many
-from CSP3_project.models import IV, Wafer, Die
-from demonstration_February import clear_database, upload_all
+from UofG_PP.models import IV, Wafer, Die
 
 # 1. First upload a test file (see demonstrate_uploading.py) to test, in this case just upload one file
 

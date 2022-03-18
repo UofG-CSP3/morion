@@ -1,45 +1,49 @@
-from morion import find_one, find, find_one_and_delete, find_one_and_replace
-from CSP3_project.models import IV, Wafer, Die
-from demonstration_February import clear_database, upload_all
+from UofG_PP.models import IV, Wafer, Die
 
-# 1. First upload a test file (see demonstrate_uploading.py) to test, in this case just upload one file
+# Uncomment the following two lines if you need to clean up the database before running this script.
+# clear_database()
+# upload_all()
 
-# 2. Analyze the find_one method.
+# 1. find_one()
 
-# With the uploaded file, lets see if we can find it in the database
+# Get one model of a certain type(IV/Wafer/Die/...) from the database
 
-find_one("IV_wafer_iLGAD_3374-15_die_0_0.txt")
+single_iv = IV.find_one()
 
-# Let's say we want to check certain details in this file. Say we also just want one example
-# of this, we can check the following things for:
+# Now this model can be altered and reuploaded
+
+single_iv.author = "Me"
+single_iv.update()
+
+# We can query by attributes of the model, for example
 
 # Author:
 
-find_one("IV_wafer_iLGAD_3374-15_die_0_0.txt", author="Dima Maneuski")
+dimas_iv = IV.find_one(author="Dima Maneuski")
 
 # Institution:
 
-find_one("IV_wafer_iLGAD_3374-15_die_0_0.txt", institution="University of Glasgow")
+uofg_iv = IV.find_one(institution="University of Glasgow")
 
-# One can query and find any of the defined fields, whether they are mandatory fields apart of the
-# mongomodels or if they are custom fields.
+# We can query by any of the fields of the model
 
-# 2. Analyze the find method.
+# 2. find()
 
-# This method can be used to examine all the entries in the database of the queried type
+# This method can be used to find and return all the entries in the database that conform to the query
 
-find("IV_wafer_iLGAD_3374-15_die_0_0.txt", institution="University of Glasgow")
+glasgow_ivs = IV.find(institution="University of Glasgow")
 
-# 3. Analyze the find_one_and_delete method.
+# 3. find_one_and_delete()
 
-# This method can be used to find a given entry in the database and delete it.
-# It will delete only one instance
+# This method will delete one instance of the Die model that conforms to the query from the database
+# and return that instance
 
-find_one_and_delete("IV_wafer_iLGAD_3374-15_die_0_0.txt", author="John Johnson")
+Die.find_one_and_delete(size=2.0)
 
-# 4. Analyze the find_one_replace method.
+# 4. find_and_replace()
 
-# This method can be used to find a given entry in the database and delete it.
-# It will delete only one instance
+# This method can be called on a model to replace a model in the database that conforms to the query
+# Will return the model that has been replaced
 
-find_one_and_replace("IV_wafer_iLGAD_3374-15_die_0_0.txt", comment="I love steak")
+
+uofg_iv.find_and_replace(comment="comment")

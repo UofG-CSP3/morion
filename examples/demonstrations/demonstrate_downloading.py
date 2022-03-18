@@ -1,5 +1,5 @@
 from morion import download_one, download_many
-from CSP3_project.models import IV, Wafer, Die
+from UofG_PP.models import IV, Wafer, Die
 from demonstration_Feb import clear_database, upload_all
 
 
