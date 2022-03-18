@@ -194,7 +194,24 @@ def wafer_reader(filepath: str) -> Wafer:
 ```
 
 ### Registering a writer
+This is an example of a writer compatible with the reader above, that is it writes files that can be read by that reader.
+
 ```python
+from morion.filewriter import register_writer
+
+@register_writer(model=Wafer, use_when=lambda _:True)
+def die_writer(filepath: str, model: Wafer):
+  model_dict = model.dict(by_alias=True)
+  del model_dict['_id']
+
+  with open(filepath, 'w') as f:
+    f.write('Wafer\n') # this is for the reader to know it's a file describing a Wafer
+
+    f.write(f'{model_dict.pop('name')}\n')
+    f.write(f'{model_dict.pop('production_date')}\n')
+
+    for field, value in model_dict.items():
+      f.write(f'{field}  {value}\n')
 ```
 
 ### Uploading to the database
@@ -207,12 +224,17 @@ upload_file('wafer.txt') # morion will take care of the rest.
 ```
 
 ### Downloading from the database
+The downloading of specific model requires that there is at least one writer that can write this model to a file.
 ```python
+from morion import download_many
+# Make sure you've also imported a relevant writer.
+
+# This will download all wafers which have 'smoky quartz' material type and save them in wafers directory
+download_many(Wafer, directory='wafers/', filepath="{name}.txt", material_type='smoky quartz')
 ```
 
 ### Interacting with models
-```python
-```
+See `examples/` directory for examples of interacting with models.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
