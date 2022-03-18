@@ -1,21 +1,41 @@
-from morion import download_one, download_many
-from UofG_PP.models import IV, Wafer, Die
+from datetime import datetime
 
-# 1. First upload a test file (see demonstrate_uploading.py) to test, in this case just upload one file
+from UofG_PP.models import IV, Wafer, Die, IVModelReadings
 
-# 2. Insert
+# 1. First up# Uncomment the following two lines if you need to clean up the database before running this script.
+# # clear_database()
+# # upload_all()load a test file (see demonstrate_uploading.py) to test, in this case just upload one file
 
-# Insert a new entry into the database
+# 2. insert()
 
-iv = IV.find_one(institution="University of Paris")
-iv.insert(temperature=100)
+# Insert a new model instance into the database
+
+iv = IV(wafer='aaa', die='abb', comment='HEY', institution='BEY', author='BAE',
+    date=datetime(year=2010, month=11, day=10), voltageStep=3.9, stepDelay=4.2, stepMeasurement=4,
+    compliance=2.23, readings=[IVModelReadings(time=3, voltage=2.0, currentAverage=3.9, currentStdev=4.2, temperature=2.3, humidity=6.9)])
+
+iv.insert()
 
 # 3. Update
 
-iv = IV.find_one(author="John Nhoj")
-iv.author = "Nohj John"
+# After getting a model instance from the database and changing it locally, update the changes so they
+# are reflected in the database
 
-#4 insert_or_replace
+tariq_iv = IV.find_one(author="Danial Tariq")
+tariq_iv.author = "Not Danial Tariq"
+tariq_iv.update()
 
-iv = IV.find_one(institution="University of Paris")
-iv.insert_or_replace(temperature=100)
+#4 insert_or_update
+
+# When called on an instance of a model updates it inside the database,
+# however if it is a new model instance, it will insert i
+
+# like update
+iv = IV.find_one(institution="University of Glasgow")
+iv.institution = "University of Paris"
+iv.insert_or_update()
+
+# like insert
+die = Die(wafer='', name='a', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
+                   n_channels=2.1111334)
+die.insert_or_update()

@@ -199,21 +199,21 @@ class TestMongoModel(unittest.TestCase):
         self.assertTrue(die_update in all_dies)
         self.assertTrue(die not in all_dies)
 
-    def test_insert_or_replace(self):
+    def test_insert_or_update(self):
         """
-        Tests insert_or_replace() by first using it to insert a die, asserting the operation is acknowledged.
+        Tests insert_or_update() by first using it to insert a die, asserting the operation is acknowledged.
         Then it creates a replacement die changing the anode_type but keeping the same id as the first die,
-        then uses insert_or_replace() to put the new die in the db and remove the old one,
+        then uses insert_or_update() to put the new die in the db and remove the old one,
         asserting that the operation is acknowledged, the replacement die can be found in the db,
         and the first die cannot be found in the db.
         """
         die = Die(wafer='bbb', name='a', anode_type='anode', device_type='device', size=2.12, pitch=3.13,
                   n_channels=3.25)
-        self.assertTrue(die.insert_or_replace())
+        self.assertTrue(die.insert_or_update())
         replacement_die = Die(id=die.id, wafer='bbb', name='a', anode_type='anode', device_type='device', size=2.12,
                               pitch=3.13,
                               n_channels=3.15)
-        self.assertTrue(replacement_die.insert_or_replace())
+        self.assertTrue(replacement_die.insert_or_update())
         self.assertTrue(replacement_die in Die.find())
         self.assertTrue(die not in Die.find())
 

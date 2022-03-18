@@ -25,7 +25,7 @@ def upload_file(filepath: str, reader: Callable[[str], MongoModel] = None, upser
     """
     mongo_model = read_file(filepath, reader)
     if upsert:
-        mongo_model.insert_or_replace()
+        mongo_model.insert_or_update()
     else:
         mongo_model.insert()
 

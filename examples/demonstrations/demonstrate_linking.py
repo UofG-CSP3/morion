@@ -1,4 +1,4 @@
-from CSP3_project.models import IV, Wafer, Die
+from UofG_PP.models import IV, Wafer, Die
 from demonstration_Feb import upload_all
 
 
