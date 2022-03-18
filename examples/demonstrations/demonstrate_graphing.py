@@ -9,7 +9,7 @@ from matplotlib import pyplot as plt
 # 1. Plotting all IV experiments from the same wafer onto the same graph
 
 #Wafer you want to get IVs from:
-wafer_name = 'INSERT WAFER NAME HERE'
+wafer_name = 'iLGAD_3374-15'
 wafer = Wafer.find_one(wafer=wafer_name)
 #IVs on wafer:
 ivs = IV.find(wafer='wafer_name')
@@ -24,10 +24,10 @@ plt.show()
 # 2. Plotting all IV experiments from the same die onto the same graph
 
 #Die you want to get IVs from:
-die_name = 'INSERT DIE NAME HERE'
+die_name = '0_0'
 die = Die.find_one(die=die_name)
 #IVs on die:
-ivs = IV.find(die='die_name')
+ivs = IV.find(die=die_name)
 #Plotting the IV experiments
 dataframes = []
 for iv in ivs:
@@ -39,10 +39,10 @@ plt.show()
 # 3. Plotting an IV experiment with an entire knowledge about the die
 
 #Die you want to get IV from:
-die_name = 'INSERT DIE NAME HERE'
+die_name = '0_1'
 die = Die.find_one(die=die_name)
 #IV on die:
-iv = IV.find_one(die='die_name')
+iv = IV.find_one(die=die_name)
 #Plotting the IV experiment:
 dataframe = iv.to_pandas_frame()
 dataframe.plot(x="voltage", y="current")
